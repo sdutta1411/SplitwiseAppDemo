@@ -33,20 +33,20 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
 
-  const dispatchRegister = status =>{
+  const dispatchRegister = status => {
     dispatch(
       register({
-          username: name,
-          email: email,
-          password: password,
-          phone: phone,
-          currency: currency,
-          timezone: timezone,
-          language: language,
-          isRegistered: status
-        })
+        username: name,
+        email: email,
+        password: password,
+        phone: phone,
+        currency: currency,
+        timezone: timezone,
+        language: language,
+        isRegistered: status
+      })
     );
-}
+  }
 
   const submitSignUp = (e) => {
     e.preventDefault();
@@ -60,41 +60,25 @@ const SignUp = () => {
       language: language
     }
 
-    // if (this.state.username === "" || this.state.password === "" || this.state.name === "" || this.state.phoneNo === "" ||
-    //   this.state.zipCode === "" || this.state.emailId === "" || this.state.role === "") {
-    //   swal("Please Enter the Required Details")
-    // }
-    // else {
-        axios.post('http://localhost:4000/register', data)
-          .then(response => {
-            console.log(response);
-            dispatchRegister(response.data.status);
-            if (response.data.status === true) {
-              swal("Success", "User Created Successfully", "success");
-              //this.setState({ redirect: true });
-            } else {
-              swal("Error", "Unable to create User", "error", {
-                dangerMode: true
-              });
-              //this.setState({ redirect: false });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            swal("Error", "Error in User Creation", "error", {
-              dangerMode: true
-            });
-            //this.setState({ redirect: false });
+    axios.post('http://localhost:4000/register', data)
+      .then(response => {
+        console.log(response);
+        dispatchRegister(response.data.status);
+        if (response.data.status === true) {
+          swal("Success", "User Created Successfully", "success");
+        } else {
+          swal("Error", "Unable to create User", "error", {
+            dangerMode: true
           });
-    //}
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        swal("Error", "Error in User Creation", "error", {
+          dangerMode: true
+        });
+      });
   }
-
-  // render() {
-  //   const { redirect } = this.state;
-
-  //   if (redirect) {
-  //     return <Redirect to='/login' />;
-  //   }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -108,32 +92,6 @@ const SignUp = () => {
         </Typography>
         <form className='signup-form' noValidate>
           <Grid container spacing={2}>
-            {/* <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="uname"
-                name="userName"
-                variant="outlined"
-                required
-                fullWidth
-                id="userName"
-                label="User Name"
-                autoFocus
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid> */}
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -249,6 +207,5 @@ const SignUp = () => {
     </Container>
   )
 }
-//}
 
 export default SignUp;
