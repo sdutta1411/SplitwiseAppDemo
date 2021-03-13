@@ -1,0 +1,20 @@
+.signup-paper{
+    margin-top: 64px;
+    display: 'flex';
+    flex-direction: 'column';
+    align-content: 'center';
+  }
+
+  .signup-avatar{
+    margin: 8px;
+    background-color: #f5f5f5;
+  }
+
+  .signup-form{
+    width: '100%';
+    margin-top: 8px;
+  }
+
+  .signup-submit{
+    margin: 24px 0px 16px;
+  }
