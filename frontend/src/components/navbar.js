@@ -16,8 +16,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import GroupIcon from '@material-ui/icons/Group';
+import FlagIcon from '@material-ui/icons/Flag';
+import { Redirect } from 'react-router'
 
 const drawerWidth = 240;
 
@@ -85,6 +88,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
     const classes = useStyles();
 
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+    const handleListItemClick = (event, index) => {
+        setSelectedIndex(index);
+        return <Redirect to='/userProfile' />
+    };
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -142,14 +152,56 @@ export default function Navbar() {
                 </div>
                 <Divider />
                 <List>
-                    {['Dashboard', 'Profile', 'Groups', 'Recent Activity'].map((text, index) => (
+                    <ListItem
+                        button
+                        selected={selectedIndex === 0}
+                        onClick={(event) => handleListItemClick(event, 0)}
+                    >
+                        <ListItemIcon>
+                            <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        selected={selectedIndex === 1}
+                        onClick={(event) => handleListItemClick(event, 1)}
+                    >
+                        <ListItemIcon>
+                            <AccountCircleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile" />
+                    </ListItem>
+                    {/* {['Dashboard', 'Profile', 'Groups', 'Recent Activity'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
-                    ))}
+                    ))} */}
                 </List>
                 <Divider />
+                <List>
+                    <ListItem
+                        button
+                        selected={selectedIndex === 2}
+                        onClick={(event) => handleListItemClick(event, 2)}
+                    >
+                        <ListItemIcon>
+                            <GroupIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Group" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        selected={selectedIndex === 3}
+                        onClick={(event) => handleListItemClick(event, 3)}
+                    >
+                        <ListItemIcon>
+                            <FlagIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Recent Activity" />
+                    </ListItem>
+                </List>
             </Drawer>
         </div>
     );
