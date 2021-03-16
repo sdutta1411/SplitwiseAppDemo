@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -88,11 +88,23 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
     const classes = useStyles();
 
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = useState();
+    const [profileRedirect, setprofileRedirect] = useState(false);
+    const [dashboardRedirect, setdashboardRedirect] = useState(false);
+
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
-        return <Redirect to='/userProfile' />
+    };
+
+    const handleProfileItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setprofileRedirect(true);
+    };
+
+    const handleDashboardItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setdashboardRedirect(true);
     };
 
     const theme = useTheme();
@@ -106,103 +118,111 @@ export default function Navbar() {
         setOpen(false);
     };
 
-    return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="static"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        <Button color="inherit" href="/">Home</Button>
-                    </Typography>
-                    <Button color="inherit" href="/login">Login</Button>
-                    <Button color="inherit">Logout</Button>
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
+    if (dashboardRedirect) {
+        return (<div>
+            <Navbar />
+            <Redirect to='/dashboard' />
+        </div>);
+    }
+    else if (profileRedirect) {
+        return (<div>
+            <Navbar />
+            <Redirect to='/userProfile' />
+        </div>);
+    }
+    else {
+        return (
+            < div className={classes.root} >
+                <CssBaseline />
+                <AppBar position="static"
+                    className={clsx(classes.appBar, {
+                        [classes.appBarShift]: open,
+                    })}>
+                    <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={clsx(classes.menuButton, {
+                                [classes.hide]: open,
+                            })}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" className={classes.title}>
+                            <Button color="inherit" href="/">Home</Button>
+                        </Typography>
+                        <Button color="inherit" href="/login">Login</Button>
+                        <Button color="inherit">Logout</Button>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    variant="permanent"
+                    className={clsx(classes.drawer, {
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                    <ListItem
-                        button
-                        selected={selectedIndex === 0}
-                        onClick={(event) => handleListItemClick(event, 0)}
-                    >
-                        <ListItemIcon>
-                            <DashboardIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
-                    </ListItem>
-                    <ListItem
-                        button
-                        selected={selectedIndex === 1}
-                        onClick={(event) => handleListItemClick(event, 1)}
-                    >
-                        <ListItemIcon>
-                            <AccountCircleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Profile" />
-                    </ListItem>
-                    {/* {['Dashboard', 'Profile', 'Groups', 'Recent Activity'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        }),
+                    }}
+                >
+                    <div className={classes.toolbar}>
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                    </div>
+                    <Divider />
+                    <List>
+                        <ListItem
+                            button
+                            selected={selectedIndex === 0}
+                            onClick={(event) => handleDashboardItemClick(event, 0)}
+                        >
+                            <ListItemIcon>
+                                <DashboardIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Dashboard" />
                         </ListItem>
-                    ))} */}
-                </List>
-                <Divider />
-                <List>
-                    <ListItem
-                        button
-                        selected={selectedIndex === 2}
-                        onClick={(event) => handleListItemClick(event, 2)}
-                    >
-                        <ListItemIcon>
-                            <GroupIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Group" />
-                    </ListItem>
-                    <ListItem
-                        button
-                        selected={selectedIndex === 3}
-                        onClick={(event) => handleListItemClick(event, 3)}
-                    >
-                        <ListItemIcon>
-                            <FlagIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Recent Activity" />
-                    </ListItem>
-                </List>
-            </Drawer>
-        </div>
-    );
+                        <ListItem
+                            button
+                            selected={selectedIndex === 1}
+                            onClick={(event) => handleProfileItemClick(event, 1)}
+                        >
+                            <ListItemIcon>
+                                <AccountCircleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Profile" />
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem
+                            button
+                            selected={selectedIndex === 2}
+                            onClick={(event) => handleListItemClick(event, 2)}
+                        >
+                            <ListItemIcon>
+                                <GroupIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Group" />
+                        </ListItem>
+                        <ListItem
+                            button
+                            selected={selectedIndex === 3}
+                            onClick={(event) => handleListItemClick(event, 3)}
+                        >
+                            <ListItemIcon>
+                                <FlagIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Recent Activity" />
+                        </ListItem>
+                    </List>
+                </Drawer>
+            </div>
+        );
+    }
 }

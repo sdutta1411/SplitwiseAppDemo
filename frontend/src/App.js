@@ -11,6 +11,7 @@ import SignUp from './components/signUp';
 import Logout from './components/logout';
 import Profile from './components/userProfile';
 import Home from './components/home';
+import Dashbard from './components/dashboard';
 
 const theme = createMuiTheme({
   palette: {
@@ -49,6 +50,9 @@ function App() {
           </Route>
           <Route path="/userProfile">
             <Profile />
+          </Route>
+          <Route path="/dashboard">
+            <Dashbard />
           </Route>
         </Switch>
       </ThemeProvider>
