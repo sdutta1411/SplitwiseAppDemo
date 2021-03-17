@@ -5,7 +5,6 @@ module.exports.register = function (req, res) {
   const sql = `INSERT INTO users (username, email, password, phone, currency, timezone, language) VALUES(?,?,?,?,?,?,?)`;
 
   const values = [
-    //req.body.userid,
     req.body.username,
     req.body.email,
     req.body.password,

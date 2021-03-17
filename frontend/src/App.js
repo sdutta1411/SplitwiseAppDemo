@@ -12,6 +12,9 @@ import Logout from './components/logout';
 import Profile from './components/userProfile';
 import Home from './components/home';
 import Dashbard from './components/dashboard';
+import Group from './components/group';
+import NewGroup from './components/newGroup';
+import MyGroups from './components/myGroup';
 
 const theme = createMuiTheme({
   palette: {
@@ -53,6 +56,15 @@ function App() {
           </Route>
           <Route path="/dashboard">
             <Dashbard />
+          </Route>
+          <Route path="/group">
+            <Group />
+          </Route>
+          <Route path="/newGroup">
+            <NewGroup />
+          </Route>
+          <Route path="/myGroups">
+            <MyGroups />
           </Route>
         </Switch>
       </ThemeProvider>

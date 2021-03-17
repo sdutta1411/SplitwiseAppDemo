@@ -1,6 +1,6 @@
 const connection = require('./../config');
 
-module.exports.authenticate=function(req,res){
+module.exports.fetchUser=function(req,res){
 
     let email=req.body.email;
     let password=req.body.password;
@@ -18,7 +18,6 @@ module.exports.authenticate=function(req,res){
         if(results.length >0){
             if(password==results[0].password){
                 res.json({
-                    data:results,
                     status:true,
                     message:'Successfully Authenticated'
                 })

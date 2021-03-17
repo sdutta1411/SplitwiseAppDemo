@@ -20,7 +20,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GroupIcon from '@material-ui/icons/Group';
 import FlagIcon from '@material-ui/icons/Flag';
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 
 const drawerWidth = 240;
 
@@ -91,6 +91,7 @@ export default function Navbar() {
     const [selectedIndex, setSelectedIndex] = useState();
     const [profileRedirect, setprofileRedirect] = useState(false);
     const [dashboardRedirect, setdashboardRedirect] = useState(false);
+    const [groupRedirect, setgroupRedirect] = useState(false);
 
 
     const handleListItemClick = (event, index) => {
@@ -105,6 +106,11 @@ export default function Navbar() {
     const handleDashboardItemClick = (event, index) => {
         setSelectedIndex(index);
         setdashboardRedirect(true);
+    };
+
+    const handleGroupItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setgroupRedirect(true);
     };
 
     const theme = useTheme();
@@ -128,6 +134,12 @@ export default function Navbar() {
         return (<div>
             <Navbar />
             <Redirect to='/userProfile' />
+        </div>);
+    }
+    else if (groupRedirect) {
+        return (<div>
+            <Navbar />
+            <Redirect to='/group' />
         </div>);
     }
     else {
@@ -203,7 +215,7 @@ export default function Navbar() {
                         <ListItem
                             button
                             selected={selectedIndex === 2}
-                            onClick={(event) => handleListItemClick(event, 2)}
+                            onClick={(event) => handleGroupItemClick(event, 2)}
                         >
                             <ListItemIcon>
                                 <GroupIcon />
