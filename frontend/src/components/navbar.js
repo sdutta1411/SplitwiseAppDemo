@@ -21,6 +21,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GroupIcon from '@material-ui/icons/Group';
 import FlagIcon from '@material-ui/icons/Flag';
 import { Redirect } from 'react-router';
+import swal from 'sweetalert';
 
 const drawerWidth = 240;
 
@@ -93,6 +94,7 @@ export default function Navbar() {
     const [dashboardRedirect, setdashboardRedirect] = useState(false);
     const [groupRedirect, setgroupRedirect] = useState(false);
 
+    let username = localStorage.Username;
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -123,6 +125,14 @@ export default function Navbar() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const logout = () => {
+        localStorage.setItem("Username", "");
+        swal("Success", "Logged Out", "success")
+            .then(() => {
+                window.location.reload();
+            })
+    }
 
     if (dashboardRedirect) {
         return (<div>
@@ -165,8 +175,12 @@ export default function Navbar() {
                         <Typography variant="h6" className={classes.title}>
                             <Button color="inherit" href="/">Home</Button>
                         </Typography>
-                        <Button color="inherit" href="/login">Login</Button>
-                        <Button color="inherit">Logout</Button>
+                        {username.length == 0 &&
+                            <Button color="inherit" href="/login">Login</Button>
+                        }
+                        {username.length > 0 &&
+                            <Button color="inherit" onClick={() => logout()}>Logout</Button>
+                        }
                     </Toolbar>
                 </AppBar>
                 <Drawer

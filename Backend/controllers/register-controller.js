@@ -1,6 +1,6 @@
 const connection = require('./../config.js');
 
-module.exports.register = function (req, res) {
+module.exports.register = (req, res) => {
 
   const sql = `INSERT INTO users (username, email, password, phone, currency, timezone, language) VALUES(?,?,?,?,?,?,?)`;
 

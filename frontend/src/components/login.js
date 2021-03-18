@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Redirect, withRouter } from 'react-router';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,7 +14,7 @@ import swal from 'sweetalert';
 
 import '../styles/login.css'
 import { useDispatch } from 'react-redux';
-import {login} from '../redux/userSlice';
+import { login } from '../redux/userSlice';
 
 const Auth = () => {
 
@@ -23,7 +23,7 @@ const Auth = () => {
 
     const dispatch = useDispatch();
 
-    const dispatchLogin = status =>{
+    const dispatchLogin = status => {
         dispatch(
             login({
                 username: username,
@@ -51,8 +51,13 @@ const Auth = () => {
                 console.log(response);
                 dispatchLogin(response.data.status);
                 if (response.data.status === true) {
-                    localStorage.setItem("Username", username);
+                    localStorage.setItem("UserDetails", JSON.stringify(response.data.userDetails));
+                    localStorage.setItem("Email", username);
+                    localStorage.setItem("Username", response.data.userDetails.username);
                     swal("Success", "Login Successful", "success")
+                        .then(() => {
+                            window.location.reload();
+                        })
                 } else {
                     swal("Error", "Login Unsuccessful", "error", {
                         dangerMode: true

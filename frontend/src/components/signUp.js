@@ -22,7 +22,6 @@ import { register } from '../redux/userSlice';
 
 const SignUp = () => {
 
-  //const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

@@ -9,6 +9,8 @@ import GroupIcon from '@material-ui/icons/Group';
 import { Divider } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
+import swal from 'sweetalert';
+import axios from 'axios';
 
 import logo from '../assets/splitwiseLogo.png';
 
@@ -38,6 +40,7 @@ const NewGroup = () => {
     const classes = useStyles();
 
     const [inputList, setInputList] = useState([{ email: "" }]);
+    const [groupName, setGroupName] = useState("");
 
     // handle input change
     const handleInputChange = (e, index) => {
@@ -59,6 +62,31 @@ const NewGroup = () => {
         setInputList([...inputList, { email: "" }]);
     };
 
+    const saveGroup = (e) => {
+        e.preventDefault();
+        const data = {
+            groupName: groupName,
+            emailList: inputList,
+            status: 'Awaiting',
+        }
+
+        axios.post('http://localhost:4000/creategroup', data)
+            .then(response => {
+                if (response.data.status === true) {
+                    swal("Success", "Group Created Successfully", "success");
+                } else {
+                    swal("Error", "Unable to Create Group", "error", {
+                        dangerMode: true
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                swal("Error", "Error in Group Creation", "error", {
+                    dangerMode: true
+                });
+            });
+    }
 
     return (
         <div className={classes.root}>
@@ -82,7 +110,8 @@ const NewGroup = () => {
                                     <GroupIcon />
                                 </Grid>
                                 <Grid item>
-                                    <TextField id="input-with-icon-grid" label="Group Name" />
+                                    <TextField id="input-with-icon-grid" label="Group Name"
+                                        onChange={(e) => setGroupName(e.target.value)} />
                                 </Grid>
                             </Grid>
                             <br />
@@ -125,6 +154,7 @@ const NewGroup = () => {
                                     size="small"
                                     className={classes.button}
                                     startIcon={<SaveIcon />}
+                                    onClick={(e) => saveGroup(e)}
                                 >
                                     Save
                                 </Button>
