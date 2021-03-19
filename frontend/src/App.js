@@ -15,6 +15,7 @@ import Dashbard from './components/dashboard';
 import Group from './components/group';
 import NewGroup from './components/newGroup';
 import MyGroups from './components/myGroup';
+import GroupPage from './components/groupPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -65,6 +66,9 @@ function App() {
           </Route>
           <Route path="/myGroups">
             <MyGroups />
+          </Route>
+          <Route path="/groupPage">
+            <GroupPage />
           </Route>
         </Switch>
       </ThemeProvider>

@@ -127,6 +127,8 @@ export default function Navbar() {
     };
 
     const logout = () => {
+        localStorage.setItem("UserDetails", "");
+        localStorage.setItem("Email", "");
         localStorage.setItem("Username", "");
         swal("Success", "Logged Out", "success")
             .then(() => {
