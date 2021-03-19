@@ -67,7 +67,7 @@ function App() {
           <Route path="/myGroups">
             <MyGroups />
           </Route>
-          <Route path="/groupPage">
+          <Route path="/groupPage/:groupName">
             <GroupPage />
           </Route>
         </Switch>

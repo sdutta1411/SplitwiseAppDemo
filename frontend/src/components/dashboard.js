@@ -109,7 +109,6 @@ const Dashboard = () => {
       >
         {body}
       </Modal>
-      {/* <SettleUp show={showSettleUp} /> */}
     </div>
   );
 }

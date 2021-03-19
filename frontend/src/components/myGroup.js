@@ -124,17 +124,15 @@ const MyGroups = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Typography>
-                                            {/* <Link to='/groupPage'> */}
                                                 {value.userstatus == 'Confirmed' && <Button
                                                     variant="contained"
                                                     color="primary"
                                                     size="medium"
                                                     component={Link}
-                                                    to='/groupPage'
+                                                    to={`/groupPage/${value.groupname}`}
                                                 >
                                                     Group Page
                                             </Button>}
-                                            {/* </Link> */}
                                             {value.userstatus == 'Awaiting' &&
                                                 <Button
                                                     variant="contained"
