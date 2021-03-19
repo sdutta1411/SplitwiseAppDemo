@@ -80,6 +80,7 @@ const MyGroups = () => {
 
     useEffect(() => {
         getAllGroups();
+        changeStatus();
     }, []);
 
     const getAllGroups = () => {
@@ -97,6 +98,10 @@ const MyGroups = () => {
                 console.log(err)
             });
     }
+
+    const changeStatus = (e) => {
+        debugger
+    };
 
     if (!fetchStatus) {
         return (
@@ -124,20 +129,21 @@ const MyGroups = () => {
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Typography>
-                                                {value.userstatus == 'Confirmed' && <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    size="medium"
-                                                    component={Link}
-                                                    to={`/groupPage/${value.groupname}`}
-                                                >
-                                                    Group Page
+                                            {value.userstatus == 'Confirmed' && <Button
+                                                variant="contained"
+                                                color="primary"
+                                                size="medium"
+                                                component={Link}
+                                                to={`/groupPage/${value.groupname}`}
+                                            >
+                                                Group Page
                                             </Button>}
                                             {value.userstatus == 'Awaiting' &&
                                                 <Button
                                                     variant="contained"
                                                     color="primary"
-                                                    size="medium">
+                                                    size="medium"
+                                                    onClick={() => changeStatus(value.groupname)}>
                                                     Accept
                                             </Button>
                                             }
