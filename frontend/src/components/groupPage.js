@@ -140,7 +140,10 @@ const GroupPage = (props) => {
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {
-                    swal("Success", "Expense Added", "success");
+                    swal("Success", "Expense Added", "success")
+                    .then(() => {
+                        window.location.reload();
+                    })
                     handleClose();
                 } else {
                     swal("Error", "Unable to add Expense", "error", {
@@ -199,13 +202,13 @@ const GroupPage = (props) => {
             });
     }
 
-    if (!fetchStatus) {
-        return (
-            <div className={classes.root}>
-                <h2>No Expenses Yet</h2>
-            </div>
-        )
-    }
+    // if (!fetchStatus) {
+    //     return (
+    //         <div className={classes.root}>
+    //             <h2>No Expenses Yet</h2>
+    //         </div>
+    //     )
+    // }
 
     return (
         <div>

@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const Accordion = withStyles({
     root: {
@@ -80,7 +81,6 @@ const MyGroups = () => {
 
     useEffect(() => {
         getAllGroups();
-        changeStatus();
     }, []);
 
     const getAllGroups = () => {
@@ -99,8 +99,62 @@ const MyGroups = () => {
             });
     }
 
-    const changeStatus = (e) => {
+    const changeStatus = (groupname) => {
         debugger
+        const data = {
+            groupname: groupname,
+            useremail: localStorage.Email
+        }
+
+        axios.post('http://localhost:4000/changestatus', data)
+            .then(response => {
+                console.log(response);
+                if (response.data.status === true) {
+                    swal("Success", "Group Invitation Accepted", "success")
+                        .then(() => {
+                            window.location.reload();
+                        })
+                } else {
+                    swal("Error", "Error in Addition to Group", "error", {
+                        dangerMode: true
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                swal("Error", "Error in Addition", "error", {
+                    dangerMode: true
+                });
+            });
+    };
+
+    const deleteInvitation = (groupname) => {
+        const data = {
+            groupname: groupname,
+            useremail: localStorage.Email,
+            delete: true
+        }
+
+        axios.post('http://localhost:4000/changestatus', data)
+            .then(response => {
+                console.log(response);
+                if (response.data.status === true) {
+                    swal("Success", "Group Invitation Rejected", "success")
+                        .then(() => {
+                            window.location.reload();
+                        })
+                } else {
+                    swal("Error", "Error", "error", {
+                        dangerMode: true
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                swal("Error", "Error", "error", {
+                    dangerMode: true
+                });
+            });
     };
 
     if (!fetchStatus) {
@@ -151,7 +205,8 @@ const MyGroups = () => {
                                                 <Button
                                                     variant="contained"
                                                     color="primary"
-                                                    size="medium">
+                                                    size="medium"
+                                                    onClick={() => deleteInvitation(value.groupname)}>
                                                     Delete
                                             </Button>
                                             }
