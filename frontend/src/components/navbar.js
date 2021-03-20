@@ -23,6 +23,7 @@ import FlagIcon from '@material-ui/icons/Flag';
 import { Redirect } from 'react-router';
 import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const drawerWidth = 240;
 
@@ -97,6 +98,7 @@ export default function Navbar() {
     const [profileRedirect, setprofileRedirect] = useState(false);
     const [dashboardRedirect, setdashboardRedirect] = useState(false);
     const [groupRedirect, setgroupRedirect] = useState(false);
+    const [recentactivitiesRedirect, setrecentactivitiesRedirect] = useState(false);
 
     let username = localStorage.Username;
 
@@ -117,6 +119,11 @@ export default function Navbar() {
     const handleGroupItemClick = (event, index) => {
         setSelectedIndex(index);
         setgroupRedirect(true);
+    };
+
+    const handleRecentActivitiesItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setrecentactivitiesRedirect(true);
     };
 
     const theme = useTheme();
@@ -158,6 +165,12 @@ export default function Navbar() {
             <Redirect to='/group' />
         </div>);
     }
+    else if (recentactivitiesRedirect) {
+        return (<div>
+            <Navbar />
+            <Redirect to='/recentactivities' />
+        </div>);
+    }
     else {
         return (
             < div className={classes.root} >
@@ -190,7 +203,7 @@ export default function Navbar() {
                         {username.length > 0 &&
                             <div className={classes.userName}>
                                 {username}
-                       </div>
+                            </div>
                         }
                     </Toolbar>
                 </AppBar>
@@ -214,49 +227,57 @@ export default function Navbar() {
                     </div>
                     <Divider />
                     <List>
-                        <ListItem
-                            button
-                            selected={selectedIndex === 0}
-                            onClick={(event) => handleDashboardItemClick(event, 0)}
-                        >
-                            <ListItemIcon>
-                                <DashboardIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Dashboard" />
-                        </ListItem>
-                        <ListItem
-                            button
-                            selected={selectedIndex === 1}
-                            onClick={(event) => handleProfileItemClick(event, 1)}
-                        >
-                            <ListItemIcon>
-                                <AccountCircleIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Profile" />
-                        </ListItem>
+                        <Tooltip title="Dashboard">
+                            <ListItem
+                                button
+                                selected={selectedIndex === 0}
+                                onClick={(event) => handleDashboardItemClick(event, 0)}
+                            >
+                                <ListItemIcon>
+                                    <DashboardIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard" />
+                            </ListItem>
+                        </Tooltip>
+                        <Tooltip title="Profile">
+                            <ListItem
+                                button
+                                selected={selectedIndex === 1}
+                                onClick={(event) => handleProfileItemClick(event, 1)}
+                            >
+                                <ListItemIcon>
+                                    <AccountCircleIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Profile" />
+                            </ListItem>
+                        </Tooltip>
                     </List>
                     <Divider />
                     <List>
-                        <ListItem
-                            button
-                            selected={selectedIndex === 2}
-                            onClick={(event) => handleGroupItemClick(event, 2)}
-                        >
-                            <ListItemIcon>
-                                <GroupIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Group" />
-                        </ListItem>
-                        <ListItem
-                            button
-                            selected={selectedIndex === 3}
-                            onClick={(event) => handleListItemClick(event, 3)}
-                        >
-                            <ListItemIcon>
-                                <FlagIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Recent Activity" />
-                        </ListItem>
+                        <Tooltip title="My Groups">
+                            <ListItem
+                                button
+                                selected={selectedIndex === 2}
+                                onClick={(event) => handleGroupItemClick(event, 2)}
+                            >
+                                <ListItemIcon>
+                                    <GroupIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Group" />
+                            </ListItem>
+                        </Tooltip>
+                        <Tooltip title="Recent Activities">
+                            <ListItem
+                                button
+                                selected={selectedIndex === 3}
+                                onClick={(event) => handleRecentActivitiesItemClick(event, 3)}
+                            >
+                                <ListItemIcon>
+                                    <FlagIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Recent Activity" />
+                            </ListItem>
+                        </Tooltip>
                     </List>
                 </Drawer>}
             </div>

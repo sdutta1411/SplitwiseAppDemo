@@ -17,6 +17,7 @@ const getsummaryController = require('./controllers/getsummary-controller.js');
 const updateuserController = require('./controllers/updateuser-controller.js');
 const fetchAllUserController = require('./controllers/fetchAllUsers-controller.js');
 const settleupController = require('./controllers/settleup-controller.js');
+const recentactivitiesController = require('./controllers/recentactivities-controller.js');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +39,7 @@ app.post('/getsummary', getsummaryController.getsummary);
 app.post('/updateuser', updateuserController.updateuser);
 app.post('/fetchallusers', fetchAllUserController.fetchAllUser);
 app.post('/settleup', settleupController.settleup);
-
+app.post('/recentactivities', recentactivitiesController.recentactivities);
 
 app.listen(4000, () => {
     console.log('Listening on port 4000');

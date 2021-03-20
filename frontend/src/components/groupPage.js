@@ -27,6 +27,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import { useLocation } from "react-router-dom";
 import { Redirect } from 'react-router';
+import Moment from 'moment';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -319,7 +320,7 @@ const GroupPage = (props) => {
                                             <ShoppingCartIcon />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText primary={value.description} secondary={value.creationDate} />
+                                    <ListItemText primary={value.description} secondary={Moment(value.creationDate).format('DD-MM-YYYY')} />
                                     <ListItemText primary={value.username} secondary={value.amount} />
                                 </ListItem>
                                 <Divider />
