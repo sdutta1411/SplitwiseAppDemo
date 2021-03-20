@@ -33,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         maxWidth: 800,
         backgroundColor: theme.palette.background.paper,
-        // flexGrow: 1,
-        // marginLeft: 100,
     },
     cardRoot: {
         maxWidth: 1000,
@@ -125,6 +123,23 @@ const GroupPage = (props) => {
         return (yyyy + '-' + mm + '-' + dd)
     }
 
+    const splitamount = () => {
+        debugger
+        const data = {
+            groupname: GroupName,
+            useremail: localStorage.Email,
+            amount: amount
+        }
+
+        axios.post('http://localhost:4000/createsplits', data)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
     const saveExpense = (e) => {
         e.preventDefault();
         const data = {
@@ -141,9 +156,10 @@ const GroupPage = (props) => {
                 console.log(response);
                 if (response.data.status === true) {
                     swal("Success", "Expense Added", "success")
-                    .then(() => {
-                        window.location.reload();
-                    })
+                        .then(() => {
+                            window.location.reload();
+                        })
+                    splitamount();
                     handleClose();
                 } else {
                     swal("Error", "Unable to add Expense", "error", {
@@ -201,14 +217,6 @@ const GroupPage = (props) => {
                 console.log(err)
             });
     }
-
-    // if (!fetchStatus) {
-    //     return (
-    //         <div className={classes.root}>
-    //             <h2>No Expenses Yet</h2>
-    //         </div>
-    //     )
-    // }
 
     return (
         <div>

@@ -11,6 +11,7 @@ const fetchgroupsController = require('./controllers/fetchGroups-controller.js')
 const addexpenseController = require('./controllers/addExpense-controller.js');
 const fetchexpenseController = require('./controllers/fetchExpenses-controller.js');
 const changeStatusController = require('./controllers/changeStatus-controller.js');
+const createsplitsController = require('./controllers/createsplits-controller.js');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +27,7 @@ app.post('/fetchgroups', fetchgroupsController.fetchGroup);
 app.post('/addexpense', addexpenseController.addExpense);
 app.post('/fetchexpenses', fetchexpenseController.fetchExpenses);
 app.post('/changestatus', changeStatusController.changeStatus);
+app.post('/createsplits', createsplitsController.createsplits);
 
 app.listen(4000, () => {
     console.log('Listening on port 4000');
