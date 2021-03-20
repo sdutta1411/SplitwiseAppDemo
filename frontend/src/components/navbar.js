@@ -22,6 +22,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import FlagIcon from '@material-ui/icons/Flag';
 import { Redirect } from 'react-router';
 import swal from 'sweetalert';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -83,6 +84,9 @@ const useStyles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
+    },
+    userName: {
+        marginLeft: 1100,
     },
 }));
 
@@ -175,17 +179,22 @@ export default function Navbar() {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            <Button color="inherit" href="/">Home</Button>
+                            <Button color="inherit" component={Link} to="/">Home</Button>
                         </Typography>
                         {username.length == 0 &&
-                            <Button color="inherit" href="/login">Login</Button>
+                            <Button color="inherit" component={Link} to="/login">Login</Button>
                         }
                         {username.length > 0 &&
-                            <Button color="inherit" onClick={() => logout()}>Logout</Button>
+                            <Button color="inherit" component={Link} to='/' onClick={() => logout()}>Logout</Button>
+                        }
+                        {username.length > 0 &&
+                            <div className={classes.userName}>
+                                {username}
+                       </div>
                         }
                     </Toolbar>
                 </AppBar>
-                <Drawer
+                {username.length > 0 && <Drawer
                     variant="permanent"
                     className={clsx(classes.drawer, {
                         [classes.drawerOpen]: open,
@@ -249,7 +258,7 @@ export default function Navbar() {
                             <ListItemText primary="Recent Activity" />
                         </ListItem>
                     </List>
-                </Drawer>
+                </Drawer>}
             </div>
         );
     }

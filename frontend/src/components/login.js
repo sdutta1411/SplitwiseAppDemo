@@ -20,6 +20,7 @@ const Auth = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [redirect, setredirect] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -54,23 +55,33 @@ const Auth = () => {
                     localStorage.setItem("UserDetails", JSON.stringify(response.data.userDetails));
                     localStorage.setItem("Email", username);
                     localStorage.setItem("Username", response.data.userDetails.username);
+                    localStorage.setItem("Phone", response.data.userDetails.phone);
+                    localStorage.setItem("Currency", response.data.userDetails.currency);
+                    localStorage.setItem("Timezone", response.data.userDetails.timezone);
+                    localStorage.setItem("Language", response.data.userDetails.language);
                     swal("Success", "Login Successful", "success")
                         .then(() => {
                             window.location.reload();
                         })
+                    setredirect(true);
                 } else {
                     swal("Error", "Login Unsuccessful", "error", {
                         dangerMode: true
                     });
+                    setredirect(false);
                 }
             })
                 .catch(err => {
                     localStorage.setItem("Username", "");
                     swal("Error", "Unable to Login", "error");
+                    setredirect(false);
                 });
         }
     }
 
+    if (redirect) {
+        return <Redirect to='/dashboard' />;
+    }
 
     return (
         <Container component="main" maxWidth="xs">

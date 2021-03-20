@@ -12,6 +12,9 @@ const addexpenseController = require('./controllers/addExpense-controller.js');
 const fetchexpenseController = require('./controllers/fetchExpenses-controller.js');
 const changeStatusController = require('./controllers/changeStatus-controller.js');
 const createsplitsController = require('./controllers/createsplits-controller.js');
+const getusernameController = require('./controllers/getUsername-controller.js');
+const getsummaryController = require('./controllers/getsummary-controller.js');
+const updateuserController = require('./controllers/updateuser-controller.js');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,6 +31,10 @@ app.post('/addexpense', addexpenseController.addExpense);
 app.post('/fetchexpenses', fetchexpenseController.fetchExpenses);
 app.post('/changestatus', changeStatusController.changeStatus);
 app.post('/createsplits', createsplitsController.createsplits);
+app.post('/getusername', getusernameController.getusername);
+app.post('/getsummary', getsummaryController.getsummary);
+app.post('/updateuser', updateuserController.updateuser);
+
 
 app.listen(4000, () => {
     console.log('Listening on port 4000');

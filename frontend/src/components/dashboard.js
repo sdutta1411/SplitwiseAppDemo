@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +15,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,6 +72,47 @@ const Dashboard = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    getSummary();
+  }, []);
+
+
+  const [takeAmount, settakeAmount] = useState(0.0);
+  const [giveAmount, setgiveAmount] = useState(0.0);
+  const [totalAmount, settotalAmount] = useState(0.0);
+
+  const getSummary = () => {
+    debugger
+    const data = {
+      email: localStorage.Email,
+      type: 'Payer'
+    }
+
+    axios.post('http://localhost:4000/getsummary', data)
+      .then(response => {
+        console.log(response);
+        settakeAmount(Math.round(response.data.takeAmount * 100) / 100);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    const data1 = {
+      email: localStorage.Email,
+      type: 'Payee'
+    }
+
+    axios.post('http://localhost:4000/getsummary', data1)
+      .then(response => {
+        console.log(response);
+        setgiveAmount(Math.round(response.data.giveAmount * 100) / 100);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+  };
+
   const body = (
     <div style={modalStyle} className={classes.paperModal}>
       <h2 id="simple-modal-title">Settle Up</h2>
@@ -92,13 +134,22 @@ const Dashboard = () => {
           </Box>
         </Grid>
         <Grid item xs={4}>
-          <Paper className={classes.paper}><Box color="success.main">Total Balance</Box></Paper>
+          <Paper className={classes.paper}>
+            <Box color={(takeAmount - giveAmount)>0? '#008000	' : '#FF0000'}>Total Balance</Box>
+            <Box color={(takeAmount - giveAmount)>0? '#008000	' : '#FF0000'}>$ {takeAmount - giveAmount}</Box>
+          </Paper>
         </Grid>
         <Grid item xs={4}>
-          <Paper className={classes.paper}><Box color="success.main">You Owe</Box></Paper>
+          <Paper className={classes.paper}>
+            <Box color={giveAmount>0? '#FF0000' : '#808080'}>You Owe</Box>
+            <Box color={giveAmount>0? '#FF0000' : '#808080'}>$ {giveAmount}</Box>
+          </Paper>
         </Grid>
         <Grid item xs={4}>
-          <Paper className={classes.paper}><Box color="success.main">You are Owed</Box></Paper>
+          <Paper className={classes.paper}>
+            <Box color={takeAmount>0? '#008000	' : '#808080'}>You are Owed</Box>
+            <Box color={takeAmount>0? '#008000	' : '#808080'}>$ {takeAmount}</Box>
+          </Paper>
         </Grid>
       </Grid>
       <Modal

@@ -5,7 +5,7 @@ module.exports.fetchExpenses = function (req, res) {
     let groupName = req.body.groupName;
     console.log(groupName);
 
-    connection.query('SELECT * FROM expenses WHERE groupName = ?', [groupName], function (error, results, fields) {
+    connection.query('SELECT * FROM expenses WHERE groupName = ? order by creationDate desc', [groupName], function (error, results, fields) {
         if (error) {
             res.json({
                 status: false,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -29,6 +29,7 @@ const SignUp = () => {
   const [currency, setCurrency] = useState("");
   const [timezone, setTimezone] = useState("");
   const [language, setLanguage] = useState("");
+  const [redirect, setredirect] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -65,10 +66,12 @@ const SignUp = () => {
         dispatchRegister(response.data.status);
         if (response.data.status === true) {
           swal("Success", "User Created Successfully", "success");
+          setredirect(true);
         } else {
           swal("Error", "Unable to create User", "error", {
             dangerMode: true
           });
+          setredirect(false);
         }
       })
       .catch(err => {
@@ -76,7 +79,13 @@ const SignUp = () => {
         swal("Error", "Error in User Creation", "error", {
           dangerMode: true
         });
+        setredirect(false);
       });
+  }
+
+
+  if (redirect) {
+    return <Redirect to='/login' />;
   }
 
   return (
