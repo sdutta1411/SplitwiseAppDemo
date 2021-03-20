@@ -26,6 +26,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import axios from 'axios';
 import swal from 'sweetalert';
 import { useLocation } from "react-router-dom";
+import { Redirect } from 'react-router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -100,6 +101,7 @@ const GroupPage = (props) => {
 
     const [myExpenses, setmyExpenses] = useState([]);
     const [fetchStatus, setfetchStatus] = useState(true);
+    const [redirect, setredirect] = useState(false);
 
     useEffect(() => {
         getAllExpenses();
@@ -218,9 +220,75 @@ const GroupPage = (props) => {
             });
     }
 
+    const leaveGroup = () => {
+
+        const data1 = {
+            email: localStorage.Email,
+            type: 'Payee'
+        }
+
+        let leave = false;
+
+        axios.post('http://localhost:4000/getsummary', data1)
+            .then(response => {
+                console.log(response);
+                if (response.data.giveAmount == 0) {
+                    leave = true;
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+
+        if (leave) {
+            const data3 = {
+                groupname: GroupName,
+                useremail: localStorage.Email,
+                delete: true
+            }
+
+            axios.post('http://localhost:4000/changestatus', data3)
+                .then(response => {
+                    console.log(response);
+                    if (response.data.status === true) {
+                        swal("Success", "Left Group", "success");
+                        setredirect(true);
+                    } else {
+                        swal("Error", "Error", "error", {
+                            dangerMode: true
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    swal("Error", "Error", "error", {
+                        dangerMode: true
+                    });
+                });
+
+        } else {
+            swal("Error", "Settle All Balances", "error", {
+                dangerMode: true
+            });
+        }
+
+    };
+
+    if (redirect) {
+        return <Redirect to='/myGroups' />;
+    }
+
     return (
         <div>
             <Card className={classes.cardRoot}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    className={classes.button}
+                    onClick={() => leaveGroup()}
+                >Leave Group</Button>
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}>

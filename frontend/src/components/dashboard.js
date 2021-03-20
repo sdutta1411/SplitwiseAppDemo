@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import { palette } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
-import { Button } from '@material-ui/core';
+import { Divider, Button, TextField } from '@material-ui/core';
 import SettleUp from '../modals/settleUp';
 import Modal from '@material-ui/core/Modal';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,7 +15,11 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography'
+import SaveIcon from '@material-ui/icons/Save';
 import axios from 'axios';
+import MenuItem from '@material-ui/core/MenuItem';
+import swal from 'sweetalert';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,12 +78,18 @@ const Dashboard = () => {
 
   useEffect(() => {
     getSummary();
+    fetchAllUserids();
   }, []);
 
 
   const [takeAmount, settakeAmount] = useState(0.0);
   const [giveAmount, setgiveAmount] = useState(0.0);
   const [totalAmount, settotalAmount] = useState(0.0);
+  const [amount, setAmount] = useState(0.0);
+  const [settleUser, setSettleUser] = useState('');
+  const [userids, setuserids] = useState([]);
+
+  let users = [];
 
   const getSummary = () => {
     debugger
@@ -113,13 +123,67 @@ const Dashboard = () => {
 
   };
 
+  const fetchAllUserids = () => {
+    axios.post('http://localhost:4000/fetchallusers')
+      .then(response => {
+        console.log(response);
+        const allusers = response.data.data;
+        users = response.data.data;
+        setuserids(allusers);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const onSettleUp = (e) => {
+     debugger
+     console.log(settleUser)
+     const data2 = {
+      payee: settleUser,
+      payer: localStorage.Email
+    }
+     axios.post('http://localhost:4000/settleup', data2)
+     .then(response => {
+      console.log(response);
+      swal("Success", response.data.message, "success");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  };
+
   const body = (
     <div style={modalStyle} className={classes.paperModal}>
       <h2 id="simple-modal-title">Settle Up</h2>
+      <Divider />
       <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+        <div>
+          <TextField id="userid" label='User' value={settleUser} select onChange={(e) => setSettleUser(e.target.value)}>
+            {userids.map((option) => (
+              <MenuItem key={option.email} value={option.email}>
+                {option.username}
+              </MenuItem>
+            ))}
+          </TextField>
+        </div>
       </p>
-      <Button>Save</Button>
+      <Divider />
+      <Button variant="contained"
+        color="secondary"
+        size="small"
+        className={classes.button}
+        onClick={() => handleClose()}>
+        Cancel
+      </Button>
+      <Button variant="contained"
+        color="primary"
+        size="small"
+        className={classes.button}
+        startIcon={<SaveIcon />}
+        onClick={(e) => onSettleUp(e)}>
+        Save
+                </Button>
     </div>
   );
 
@@ -135,20 +199,20 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.paper}>
-            <Box color={(takeAmount - giveAmount)>0? '#008000	' : '#FF0000'}>Total Balance</Box>
-            <Box color={(takeAmount - giveAmount)>0? '#008000	' : '#FF0000'}>$ {takeAmount - giveAmount}</Box>
+            <Box color={(takeAmount - giveAmount) > 0 ? '#008000	' : '#FF0000'}>Total Balance</Box>
+            <Box color={(takeAmount - giveAmount) > 0 ? '#008000	' : '#FF0000'}>$ {takeAmount - giveAmount}</Box>
           </Paper>
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.paper}>
-            <Box color={giveAmount>0? '#FF0000' : '#808080'}>You Owe</Box>
-            <Box color={giveAmount>0? '#FF0000' : '#808080'}>$ {giveAmount}</Box>
+            <Box color={giveAmount > 0 ? '#FF0000' : '#808080'}>You Owe</Box>
+            <Box color={giveAmount > 0 ? '#FF0000' : '#808080'}>$ {giveAmount}</Box>
           </Paper>
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.paper}>
-            <Box color={takeAmount>0? '#008000	' : '#808080'}>You are Owed</Box>
-            <Box color={takeAmount>0? '#008000	' : '#808080'}>$ {takeAmount}</Box>
+            <Box color={takeAmount > 0 ? '#008000	' : '#808080'}>You are Owed</Box>
+            <Box color={takeAmount > 0 ? '#008000	' : '#808080'}>$ {takeAmount}</Box>
           </Paper>
         </Grid>
       </Grid>
