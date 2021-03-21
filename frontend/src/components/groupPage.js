@@ -233,47 +233,41 @@ const GroupPage = (props) => {
         axios.post('http://localhost:4000/getsummary', data1)
             .then(response => {
                 console.log(response);
-                if (response.data.giveAmount == 0) {
-                    leave = true;
+                if (response.data.giveAmount == null) {
+                    const data3 = {
+                        groupname: GroupName,
+                        useremail: localStorage.Email,
+                        delete: true
+                    }
+
+                    axios.post('http://localhost:4000/changestatus', data3)
+                        .then(response => {
+                            console.log(response);
+                            if (response.data.status === true) {
+                                swal("Success", "Left Group", "success");
+                                setredirect(true);
+                            } else {
+                                swal("Error", "Error", "error", {
+                                    dangerMode: true
+                                });
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            swal("Error", "Error", "error", {
+                                dangerMode: true
+                            });
+                        });
+
+                } else {
+                    swal("Error", "Settle All Balances", "error", {
+                        dangerMode: true
+                    });
                 }
             })
             .catch(err => {
                 console.log(err);
             });
-
-
-        if (leave) {
-            const data3 = {
-                groupname: GroupName,
-                useremail: localStorage.Email,
-                delete: true
-            }
-
-            axios.post('http://localhost:4000/changestatus', data3)
-                .then(response => {
-                    console.log(response);
-                    if (response.data.status === true) {
-                        swal("Success", "Left Group", "success");
-                        setredirect(true);
-                    } else {
-                        swal("Error", "Error", "error", {
-                            dangerMode: true
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    swal("Error", "Error", "error", {
-                        dangerMode: true
-                    });
-                });
-
-        } else {
-            swal("Error", "Settle All Balances", "error", {
-                dangerMode: true
-            });
-        }
-
     };
 
     if (redirect) {

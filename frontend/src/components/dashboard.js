@@ -147,6 +147,7 @@ const Dashboard = () => {
      .then(response => {
       console.log(response);
       swal("Success", response.data.message, "success");
+     getSummary();
     })
     .catch(err => {
       console.log(err);
