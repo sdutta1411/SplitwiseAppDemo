@@ -194,20 +194,20 @@ export default function Navbar() {
                         <Typography variant="h6" className={classes.title}>
                             <Button color="inherit" component={Link} to="/">Home</Button>
                         </Typography>
-                        {username.length == 0 &&
+                        {localStorage.Username.length == 0 &&
                             <Button color="inherit" component={Link} to="/login">Login</Button>
                         }
-                        {username.length > 0 &&
+                        {localStorage.Username.length > 0 &&
                             <Button color="inherit" component={Link} to='/' onClick={() => logout()}>Logout</Button>
                         }
-                        {username.length > 0 &&
+                        {localStorage.Username.length > 0 &&
                             <div className={classes.userName}>
-                                {username}
+                                {localStorage.Username}
                             </div>
                         }
                     </Toolbar>
                 </AppBar>
-                {username.length > 0 && <Drawer
+                {localStorage.Username.length > 0 && <Drawer
                     variant="permanent"
                     className={clsx(classes.drawer, {
                         [classes.drawerOpen]: open,
