@@ -100,7 +100,7 @@ const Auth = () => {
                         required
                         fullWidth
                         id="uname"
-                        label="User Name"
+                        label="User Email"
                         name="uname"
                         autoComplete="uname"
                         autoFocus

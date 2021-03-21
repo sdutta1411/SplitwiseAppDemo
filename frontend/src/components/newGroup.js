@@ -64,16 +64,20 @@ const NewGroup = () => {
 
     const saveGroup = (e) => {
         e.preventDefault();
+        let inputListnew = [...inputList, {email:localStorage.Email}];
         const data = {
             groupName: groupName,
-            emailList: inputList,
+            emailList: inputListnew,
             status: 'Awaiting',
         }
 
         axios.post('http://localhost:4000/creategroup', data)
             .then(response => {
                 if (response.data.status === true) {
-                    swal("Success", "Group Created Successfully", "success");
+                    swal("Success", "Group Created Successfully", "success")
+                    .then(() => {
+                            window.location.reload();
+                        })
                 } else {
                     swal("Error", "Unable to Create Group", "error", {
                         dangerMode: true

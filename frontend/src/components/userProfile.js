@@ -124,7 +124,7 @@ const Profile = () => {
                 <Box m={4} p={3} border={1} css={{ height: 230 }}>
                     <Grid container justify="center" alignItems="center" spacing={5}>
                         <Grid item>
-                            <Button color="primary" variant="contained" component={Link} to='/dashboard' >Cancle</Button>
+                            <Button color="primary" variant="contained" component={Link} to='/dashboard' >Cancel</Button>
                         </Grid>
                         <Grid item>
                             <Button color="primary" variant="contained" onClick={(e) => saveUserDetails(e)}>Save</Button>
