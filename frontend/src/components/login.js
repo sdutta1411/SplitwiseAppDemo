@@ -45,7 +45,7 @@ const Auth = () => {
             swal("Please Enter Username and Password")
         }
         else {
-            axios.post('http://localhost:4000/authenticate', {
+            axios.post('http://18.219.109.160:4000/authenticate', {
                 email: username,
                 password: password
             }).then(response => {

@@ -100,7 +100,7 @@ export default function Navbar() {
     const [groupRedirect, setgroupRedirect] = useState(false);
     const [recentactivitiesRedirect, setrecentactivitiesRedirect] = useState(false);
 
-    let username = localStorage.Username;
+    let username = "";
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);

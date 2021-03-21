@@ -84,7 +84,7 @@ const MyGroups = () => {
     }, []);
 
     const getAllGroups = () => {
-        axios.post('http://localhost:4000/fetchgroups', {
+        axios.post('http://18.219.109.160:4000/fetchgroups', {
             email: localStorage.Email
         }).then(response => {
             if (response.data.status === true) {
@@ -106,7 +106,7 @@ const MyGroups = () => {
             useremail: localStorage.Email
         }
 
-        axios.post('http://localhost:4000/changestatus', data)
+        axios.post('http://18.219.109.160:4000/changestatus', data)
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {
@@ -135,7 +135,7 @@ const MyGroups = () => {
             delete: true
         }
 
-        axios.post('http://localhost:4000/changestatus', data)
+        axios.post('http://18.219.109.160:4000/changestatus', data)
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {

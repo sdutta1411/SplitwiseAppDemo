@@ -44,7 +44,7 @@ const RecentActivities = () => {
 
     const getRecentActivities = () => {
         debugger
-        axios.post('http://localhost:4000/recentactivities', {
+        axios.post('http://18.219.109.160:4000/recentactivities', {
             email: localStorage.Email
         }).then(response => {
             if (response.data.status === true) {
