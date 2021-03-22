@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -100,14 +100,7 @@ export default function Navbar() {
     const [groupRedirect, setgroupRedirect] = useState(false);
     const [recentactivitiesRedirect, setrecentactivitiesRedirect] = useState(false);
 
-    useEffect(() => {
-        setUsername();
-    }, []);
-
-    const setUsername = () => {
-        localStorage.setItem("Username", "");
-    };
-    
+    let username = "";
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
