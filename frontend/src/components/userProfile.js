@@ -31,7 +31,7 @@ const Profile = () => {
             language: language
         }
 
-        axios.post('http://3.133.137.42:4000/updateuser', data)
+        axios.post('http://localhost:4000/updateuser', data)
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {

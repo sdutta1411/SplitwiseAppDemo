@@ -60,7 +60,7 @@ const SignUp = () => {
       language: language
     }
 
-    axios.post('http://3.133.137.42:4000/register', data)
+    axios.post('http://localhost:4000/register', data)
       .then(response => {
         console.log(response);
         dispatchRegister(response.data.status);

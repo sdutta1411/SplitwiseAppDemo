@@ -98,7 +98,7 @@ const Dashboard = () => {
       type: 'Payer'
     }
 
-    axios.post('http://3.133.137.42:4000/getsummary', data)
+    axios.post('http://localhost:4000/getsummary', data)
       .then(response => {
         console.log(response);
         settakeAmount(Math.round(response.data.takeAmount * 100) / 100);
@@ -112,7 +112,7 @@ const Dashboard = () => {
       type: 'Payee'
     }
 
-    axios.post('http://3.133.137.42:4000/getsummary', data1)
+    axios.post('http://localhost:4000/getsummary', data1)
       .then(response => {
         console.log(response);
         setgiveAmount(Math.round(response.data.giveAmount * 100) / 100);
@@ -124,7 +124,7 @@ const Dashboard = () => {
   };
 
   const fetchAllUserids = () => {
-    axios.post('http://3.133.137.42:4000/fetchallusers')
+    axios.post('http://localhost:4000/fetchallusers')
       .then(response => {
         console.log(response);
         const allusers = response.data.data;
@@ -143,7 +143,7 @@ const Dashboard = () => {
       payee: settleUser,
       payer: localStorage.Email
     }
-     axios.post('http://3.133.137.42:4000/settleup', data2)
+     axios.post('http://localhost:4000/settleup', data2)
      .then(response => {
       console.log(response);
       swal("Success", response.data.message, "success");

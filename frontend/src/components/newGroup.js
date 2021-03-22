@@ -71,7 +71,7 @@ const NewGroup = () => {
             status: 'Awaiting',
         }
 
-        axios.post('http://3.133.137.42:4000/creategroup', data)
+        axios.post('http://localhost:4000/creategroup', data)
             .then(response => {
                 if (response.data.status === true) {
                     swal("Success", "Group Created Successfully", "success")

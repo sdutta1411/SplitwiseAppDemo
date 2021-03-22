@@ -134,7 +134,7 @@ const GroupPage = (props) => {
             amount: amount
         }
 
-        axios.post('http://3.133.137.42:4000/createsplits', data)
+        axios.post('http://localhost:4000/createsplits', data)
             .then(response => {
                 console.log(response);
             })
@@ -154,7 +154,7 @@ const GroupPage = (props) => {
             username: localStorage.Username
         }
 
-        axios.post('http://3.133.137.42:4000/addexpense', data)
+        axios.post('http://localhost:4000/addexpense', data)
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {
@@ -206,7 +206,7 @@ const GroupPage = (props) => {
     );
 
     const getAllExpenses = () => {
-        axios.post('http://3.133.137.42:4000/fetchexpenses', {
+        axios.post('http://localhost:4000/fetchexpenses', {
             groupName: GroupName
         }).then(response => {
             if (response.data.status === true) {
@@ -230,7 +230,7 @@ const GroupPage = (props) => {
 
         let leave = false;
 
-        axios.post('http://3.133.137.42:4000/getsummary', data1)
+        axios.post('http://localhost:4000/getsummary', data1)
             .then(response => {
                 console.log(response);
                 if (response.data.giveAmount == null) {
@@ -240,7 +240,7 @@ const GroupPage = (props) => {
                         delete: true
                     }
 
-                    axios.post('http://3.133.137.42:4000/changestatus', data3)
+                    axios.post('http://localhost:4000/changestatus', data3)
                         .then(response => {
                             console.log(response);
                             if (response.data.status === true) {

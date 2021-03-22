@@ -45,7 +45,7 @@ const Auth = () => {
             swal("Please Enter Username and Password")
         }
         else {
-            axios.post('http://3.133.137.42:4000/authenticate', {
+            axios.post('http://localhost:4000/authenticate', {
                 email: username,
                 password: password
             }).then(response => {
@@ -59,6 +59,7 @@ const Auth = () => {
                     localStorage.setItem("Currency", response.data.userDetails.currency);
                     localStorage.setItem("Timezone", response.data.userDetails.timezone);
                     localStorage.setItem("Language", response.data.userDetails.language);
+                    localStorage.setItem("IsLoggedIn", true);
                     swal("Success", "Login Successful", "success")
                         .then(() => {
                             window.location.reload();
