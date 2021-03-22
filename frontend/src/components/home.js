@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid'; 
+import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   root: {
     maxWidth: 345,
     // marginLeft: 280,
-     marginTop: 100
+    marginTop: 100
   },
   media: {
     height: 300,
@@ -24,6 +24,14 @@ const useStyles = makeStyles({
 
 export default function Home() {
   const classes = useStyles();
+
+  useEffect(() => {
+    setUsername();
+  }, []);
+
+  const setUsername = () => {
+    localStorage.setItem("Username", "");
+  };
 
   return (
     <Grid container justify="center">
