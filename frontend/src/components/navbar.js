@@ -138,9 +138,7 @@ export default function Navbar() {
     };
 
     const logout = () => {
-        localStorage.setItem("UserDetails", "");
-        localStorage.setItem("Email", "");
-        localStorage.setItem("Username", "");
+        localStorage.clear();
         swal("Success", "Logged Out", "success")
             .then(() => {
                 window.location.reload();
@@ -194,20 +192,20 @@ export default function Navbar() {
                         <Typography variant="h6" className={classes.title}>
                             <Button color="inherit" component={Link} to="/">Home</Button>
                         </Typography>
-                        {localStorage.Username.length == 0 &&
+                        {localStorage.length == 0 &&
                             <Button color="inherit" component={Link} to="/login">Login</Button>
                         }
-                        {localStorage.Username.length > 0 &&
+                        {localStorage.length > 0 &&
                             <Button color="inherit" component={Link} to='/' onClick={() => logout()}>Logout</Button>
                         }
-                        {localStorage.Username.length > 0 &&
+                        {localStorage.length > 0 &&
                             <div className={classes.userName}>
                                 {localStorage.Username}
                             </div>
                         }
                     </Toolbar>
                 </AppBar>
-                {localStorage.Username.length > 0 && <Drawer
+                {localStorage.length > 0 && <Drawer
                     variant="permanent"
                     className={clsx(classes.drawer, {
                         [classes.drawerOpen]: open,
