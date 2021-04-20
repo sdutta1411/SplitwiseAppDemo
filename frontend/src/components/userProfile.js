@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Avatar, TextField, Grid, Button, Box, Divider, Typography } from '@material-ui/core';
@@ -11,7 +11,7 @@ import '../styles/userProfile.css';
 
 const Profile = () => {
 
-    let userdetails = JSON.parse(localStorage.UserDetails);
+    //let userdetails = JSON.parse(localStorage.UserDetails);
 
     const [name, setName] = useState(localStorage.Username);
     const [email, setEmail] = useState(localStorage.Email);
@@ -20,23 +20,62 @@ const Profile = () => {
     const [timezone, setTimezone] = useState(localStorage.Timezone);
     const [language, setLanguage] = useState(localStorage.Language);
 
+    useEffect(() => {
+        getUserDetails();
+    }, []);
+
+    const getUserDetails = () => {
+        const uid = localStorage.getItem("Email");
+        fetch(`http://localhost:4000/api/user/${uid}`)
+            .then(res => res.json())
+            .then(data => {
+                setEmail(data.email);
+                setName(data.name);
+                setPhone(data.phone);
+                setCurrency(data.currency);
+                setTimezone(data.timezone);
+                setLanguage(data.language);
+            })
+            .catch(err => {
+                console.log("Some error occured!");
+            });
+    };
+
     const saveUserDetails = (e) => {
         e.preventDefault();
-        const data = {
-            username: name,
-            email: email,
-            phone: phone,
-            currency: currency,
-            timezone: timezone,
-            language: language
-        }
+        const options = {
+            method: "PATCH",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                phone: phone,
+                currency: currency,
+                timezone: timezone,
+                language: language
+            })
+        };
 
-        axios.post('http://localhost:4000/updateuser', data)
+
+        // const data = {
+        //     username: name,
+        //     email: email,
+        //     phone: phone,
+        //     currency: currency,
+        //     timezone: timezone,
+        //     language: language
+        // }
+        // axios.post('http://localhost:4000/updateuser', data)
+
+
+        const uid = localStorage.getItem("UserId");
+        fetch(`http://localhost:4000/api/user/${uid}`, options)       
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {
                     swal("Success", response.data.message, "success");
-
                     localStorage.setItem("Username", name);
                     localStorage.setItem("Phone", phone);
                     localStorage.setItem("Currency", currency);

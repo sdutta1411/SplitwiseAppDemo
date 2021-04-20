@@ -43,23 +43,22 @@ const Auth = () => {
 
         if (username === "" || password === "") {
             swal("Please Enter Username and Password")
-        }
+        }   
         else {
-            axios.post('http://localhost:4000/authenticate', {
+            axios.post('http://localhost:4000/api/user/login', {
                 email: username,
                 password: password
             }).then(response => {
                 console.log(response);
                 dispatchLogin(response.data.status);
                 if (response.data.status === true) {
-                    localStorage.setItem("UserDetails", JSON.stringify(response.data.userDetails));
-                    localStorage.setItem("Email", username);
-                    localStorage.setItem("Username", response.data.userDetails.username);
+                    localStorage.setItem("Email", response.data.userDetails.email);
+                    localStorage.setItem("Username", response.data.userDetails.name);
                     localStorage.setItem("Phone", response.data.userDetails.phone);
                     localStorage.setItem("Currency", response.data.userDetails.currency);
                     localStorage.setItem("Timezone", response.data.userDetails.timezone);
                     localStorage.setItem("Language", response.data.userDetails.language);
-                    localStorage.setItem("IsLoggedIn", true);
+                    localStorage.setItem("UserId", response.data.userDetails._id);
                     swal("Success", "Login Successful", "success")
                         .then(() => {
                             window.location.reload();

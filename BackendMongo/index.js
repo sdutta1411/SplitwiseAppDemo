@@ -3,35 +3,51 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
+//const user = require('./routes/user-routes');
 
-const config = require('./config');
-const User = require('./models/UserModel');
+const User = require('./models/user-model');
+
+const InitiateMongoServer = require('./config');
+
+const userRoute = require('./routes/user-routes');
+//const homeRoute = require('./routes/home-route');
+const HttpCodes = require('./enums/http-codes');
+
+
+// Initiate Mongo Server
+mongoose.Promise = global.Promise;
+mongoose.set('useCreateIndex', true);
+InitiateMongoServer();
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(express.json());
 
-mongoose.Promise = global.Promise;
-mongoose.set('useCreateIndex', true);
-mongoose.connect(config.db.conn, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-    console.log('Connected');
-});
+// mongoose.connect(config.db.conn, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+//     console.log('Connected');
+// });
 
-app.post('/register', (req, res) => {
+app.use('/api/user', userRoute);
+
+app.post('/register1', (req, res) => {
 
     const newUser = new User();
+
+    console.log(req.body)
+    console.log(User)
 
     newUser.email = req.body.email;
     newUser.password = req.body.password;
     newUser.name = req.body.name;
-    if (req.body.phone !== '') newUser.name = req.body.phone;
-    if (req.body.currency !== '') newUser.name = req.body.currency;
-    if (req.body.timezone !== '') newUser.name = req.body.timezone;
-    if (req.body.language !== '') newUser.name = req.body.language;
+    newUser.phone = req.body.phone;
+    newUser.currency = req.body.currency;
+    newUser.timezone = req.body.timezone;
+    newUser.language = req.body.language;
 
     console.log(newUser);
 
@@ -41,10 +57,11 @@ app.post('/register', (req, res) => {
             if (err) return err;
             //Hashing the password
             newUser.password = hash;
-            newUser.save().then(useSaved => {
+            // Creating collection
+            newUser.save().then(userSaved => {
                 res.json({
                     status: true,
-                    data: useSaved,
+                    data: userSaved,
                     message: 'User Registered Sucessfully'
                 });
             }).catch(err => {
@@ -58,7 +75,7 @@ app.post('/register', (req, res) => {
 });
 
 
-app.post('/login', (req, res) => {
+app.post('/login1', (req, res) => {
     console.log(req.body)
     User.findOne({ email: req.body.email }).then(user => {
         if (user) {
@@ -87,7 +104,9 @@ app.post('/login', (req, res) => {
     });
 });
 
+// PORT
+const PORT = process.env.PORT || 4000;
 
-app.listen(config.server.port, () => {
-    console.log(`Listening on port ${config.server.port}`);
+app.listen(PORT, (req, res) => {
+    console.log(`Listening on port ${PORT}`);
 });
