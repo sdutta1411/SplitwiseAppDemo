@@ -32,4 +32,32 @@ const createExpense = (req, res) => {
 
 };
 
+const getExpenses = (req, res) => {
+    const group_name = req.params.groupid;
+
+    Expense.find({ 'group_name': group_name },
+        (err, expenses) => {
+            if (err) {
+                res.json({
+                    status: false,
+                    message: 'There are some error with query'
+                })
+            } else {
+                if (expenses.length > 0) {
+                    res.json({
+                        status: true,
+                        data: expenses
+                    })
+                }
+                else {
+                    res.json({
+                        status: false,
+                        message: "No Expenses for the Group"
+                    });
+                }
+            }
+        });
+};
+
 exports.createExpense = createExpense;
+exports.getExpenses = getExpenses;

@@ -12,6 +12,7 @@ const InitiateMongoServer = require('./config');
 const userRoute = require('./routes/user-routes');
 const groupRoute = require('./routes/group-routes');
 const expenseRoute = require('./routes/expenses-routes');
+const amountsplitRoute = require('./routes/amountsplit-routes');
 const HttpCodes = require('./enums/http-codes');
 
 
@@ -29,13 +30,10 @@ app.use(bodyParser.json());
 
 app.use(express.json());
 
-// mongoose.connect(config.db.conn, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-//     console.log('Connected');
-// });
-
 app.use('/api/user', userRoute);
 app.use('/api/group', groupRoute);
 app.use('/api/expense', expenseRoute);
+app.use('/api/amountsplit', amountsplitRoute);
 
 app.post('/register1', (req, res) => {
 

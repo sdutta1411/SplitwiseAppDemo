@@ -8,6 +8,9 @@ const router = express.Router();
 // get groups by username
 router.get('/:uid', groupController.getGroups);
 
+// get groups by GroupName
+router.post('/groupInfo', groupController.getGroupInfo);
+
 //Change userStatus in the Group
 router.post('/changestatus', groupController.changeStatus);
 
