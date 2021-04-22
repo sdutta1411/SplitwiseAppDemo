@@ -10,7 +10,8 @@ const User = require('./models/user-model');
 const InitiateMongoServer = require('./config');
 
 const userRoute = require('./routes/user-routes');
-//const homeRoute = require('./routes/home-route');
+const groupRoute = require('./routes/group-routes');
+const expenseRoute = require('./routes/expenses-routes');
 const HttpCodes = require('./enums/http-codes');
 
 
@@ -33,6 +34,8 @@ app.use(express.json());
 // });
 
 app.use('/api/user', userRoute);
+app.use('/api/group', groupRoute);
+app.use('/api/expense', expenseRoute);
 
 app.post('/register1', (req, res) => {
 

@@ -83,17 +83,40 @@ const MyGroups = () => {
         getAllGroups();
     }, []);
 
-    const getAllGroups = () => {
-        axios.post('http://localhost:4000/fetchgroups', {
-            email: localStorage.Email
-        }).then(response => {
-            if (response.data.status === true) {
-                const allgroups = response.data.data;
-                setmyGroups(allgroups);
-            } else {
-                setfetchStatus(false);
+    const fetchGroupData = (allgroupsData) => {
+        let myGroupsArr = [];
+        for (let i = 0; i < allgroupsData.length; i++) {
+            const members = allgroupsData[i].members
+            for (let j = 0; j < members.length; j++) {
+                if (members[j].user_name == localStorage.Email) {
+                    const groups = {
+                        group_name: allgroupsData[i].group_name,
+                        user_name: members[j].user_name,
+                        user_status: members[j].user_status
+                    }
+                    myGroupsArr = [...myGroupsArr, groups];
+                }
             }
-        })
+        }
+        setmyGroups(myGroupsArr);
+    }
+
+    const getAllGroups = () => {
+        //http://localhost:4000/api/group/
+        //   axios.post('http://localhost:4000/fetchgroups', {
+        //         email: localStorage.Email
+        //     })
+        const uid = localStorage.getItem("Email");
+        fetch(`http://localhost:4000/api/group/${uid}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === true) {
+                    const allgroupsData = data.data;
+                    fetchGroupData(allgroupsData);
+                } else {
+                    setfetchStatus(false);
+                }
+            })
             .catch(err => {
                 console.log(err)
             });
@@ -102,11 +125,11 @@ const MyGroups = () => {
     const changeStatus = (groupname) => {
         debugger
         const data = {
-            groupname: groupname,
-            useremail: localStorage.Email
+            group_name: groupname,
+            user_name: localStorage.Email
         }
 
-        axios.post('http://localhost:4000/changestatus', data)
+        axios.post('http://localhost:4000/api/group/changestatus', data)
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {
@@ -130,12 +153,12 @@ const MyGroups = () => {
 
     const deleteInvitation = (groupname) => {
         const data = {
-            groupname: groupname,
-            useremail: localStorage.Email,
-            delete: true
+            group_name: groupname,
+            user_name: localStorage.Email,
+            deletion: true
         }
 
-        axios.post('http://localhost:4000/changestatus', data)
+        axios.post('http://localhost:4000/api/group/changestatus', data)
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {
@@ -178,35 +201,35 @@ const MyGroups = () => {
                                             <Avatar>G</Avatar>
                                         </Grid>
                                         <Grid item xs zeroMinWidth>
-                                            <Typography>{value.groupname}</Typography>
+                                            <Typography>{value.group_name}</Typography>
                                         </Grid>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                         <Typography>
-                                            {value.userstatus == 'Confirmed' && <Button
+                                            {value.user_status == 'Confirmed' && <Button
                                                 variant="contained"
                                                 color="primary"
                                                 size="medium"
                                                 component={Link}
-                                                to={`/groupPage/${value.groupname}`}
+                                                to={`/groupPage/${value.group_name}`}
                                             >
                                                 Group Page
                                             </Button>}
-                                            {value.userstatus == 'Awaiting' &&
+                                            {value.user_status == 'Awaiting' &&
                                                 <Button
                                                     variant="contained"
                                                     color="primary"
                                                     size="medium"
-                                                    onClick={() => changeStatus(value.groupname)}>
+                                                    onClick={() => changeStatus(value.group_name)}>
                                                     Accept
                                             </Button>
                                             }
-                                            {value.userstatus == 'Awaiting' &&
+                                            {value.user_status == 'Awaiting' &&
                                                 <Button
                                                     variant="contained"
                                                     color="primary"
                                                     size="medium"
-                                                    onClick={() => deleteInvitation(value.groupname)}>
+                                                    onClick={() => deleteInvitation(value.group_name)}>
                                                     Delete
                                             </Button>
                                             }

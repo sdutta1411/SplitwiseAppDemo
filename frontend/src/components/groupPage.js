@@ -146,15 +146,14 @@ const GroupPage = (props) => {
     const saveExpense = (e) => {
         e.preventDefault();
         const data = {
-            groupName: GroupName,
-            email: localStorage.Email,
+            group_name: GroupName,
+            user_email: localStorage.Email,
+            user_name: localStorage.Username,
             amount: amount,
-            description: description,
-            creationDate: formatDate(),
-            username: localStorage.Username
+            description: description
         }
 
-        axios.post('http://localhost:4000/addexpense', data)
+        axios.post('http://localhost:4000/api/expense/addexpense', data)
             .then(response => {
                 console.log(response);
                 if (response.data.status === true) {
@@ -162,7 +161,7 @@ const GroupPage = (props) => {
                         .then(() => {
                             window.location.reload();
                         })
-                    splitamount();
+                    //splitamount();
                     handleClose();
                 } else {
                     swal("Error", "Unable to add Expense", "error", {

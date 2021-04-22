@@ -64,18 +64,27 @@ const NewGroup = () => {
 
     const saveGroup = (e) => {
         e.preventDefault();
-        let inputListnew = [...inputList, {email:localStorage.Email}];
-        const data = {
-            groupName: groupName,
-            emailList: inputListnew,
-            status: 'Awaiting',
+        let inputListnew = [...inputList, { email: localStorage.Email }];
+
+        let members = [];
+        for (let x = 0; x < inputListnew.length; x++) {
+            const mem = {
+                user_name: inputListnew[x].email,
+                user_status: 'Awaiting'
+            }
+            members = [...members, mem];
         }
 
-        axios.post('http://localhost:4000/creategroup', data)
+        const data = {
+            group_name: groupName,
+            members: members
+        }
+
+        axios.post('http://localhost:4000/api/group/creategroup', data)
             .then(response => {
                 if (response.data.status === true) {
                     swal("Success", "Group Created Successfully", "success")
-                    .then(() => {
+                        .then(() => {
                             window.location.reload();
                         })
                 } else {
