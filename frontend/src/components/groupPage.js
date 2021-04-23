@@ -28,6 +28,8 @@ import swal from "sweetalert";
 import { useLocation } from "react-router-dom";
 import { Redirect } from "react-router";
 import Moment from "moment";
+import CommentIcon from "@material-ui/icons/Comment";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -215,9 +217,6 @@ const GroupPage = (props) => {
   );
 
   const getAllExpenses = () => {
-    // axios.post('http://localhost:4000/fetchexpenses', {
-    //     groupName: GroupName
-    // }).then(response => {
     debugger;
     fetch(`http://localhost:4000/api/expense/${GroupName}`)
       .then((response) => response.json())
@@ -235,26 +234,22 @@ const GroupPage = (props) => {
   };
 
   const leaveGroup = () => {
-    const data1 = {
-      email: localStorage.Email,
-      type: "Payee",
-    };
-
     let leave = false;
 
     axios
-      .post("http://localhost:4000/getsummary", data1)
+      .post("http://localhost:4000/api/amountsplit/getsummary", {
+        payee: localStorage.Email,
+      })
       .then((response) => {
-        console.log(response);
-        if (response.data.giveAmount == null) {
-          const data3 = {
-            groupname: GroupName,
-            useremail: localStorage.Email,
-            delete: true,
+        if (response.data.giveAmount.length == 0) {
+          const data = {
+            group_name: GroupName,
+            user_name: localStorage.Email,
+            deletion: true,
           };
 
           axios
-            .post("http://localhost:4000/changestatus", data3)
+            .post("http://localhost:4000/api/group/changestatus", data)
             .then((response) => {
               console.log(response);
               if (response.data.status === true) {
@@ -336,6 +331,14 @@ const GroupPage = (props) => {
                   <ListItemText
                     primary={value.user_name}
                     secondary={value.amount}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    startIcon={<CommentIcon />}
+                    component={Link}
+                    to={`/commentpage`}
                   />
                 </ListItem>
                 <Divider />

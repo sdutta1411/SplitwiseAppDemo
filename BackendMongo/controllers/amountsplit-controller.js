@@ -45,7 +45,7 @@ const createSplits = (req, res) => {
       console.log(confMembers);
 
       AmountSplit.insertMany(confMembers)
-        .then(docs => {
+        .then((docs) => {
           res.json({
             status: true,
             message: "Amount Splitted Sucessfully",
@@ -61,4 +61,79 @@ const createSplits = (req, res) => {
   });
 };
 
+const getSummary = (req, res) => {
+  const { payer, payee } = req.body;
+
+  if (payer) {
+    AmountSplit.aggregate([
+      {
+        $match: { payer: payer },
+      },
+      {
+        $group: {
+          _id: "$payer",
+          takeAmount: { $sum: "$amount" },
+        },
+      },
+    ])
+      .then((docs) => {
+        console.log(docs);
+        res.json({
+          status: true,
+          takeAmount: docs,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          status: false,
+          message: "There are some error with query",
+        });
+      });
+  } else if (payee) {
+    AmountSplit.aggregate([
+      {
+        $match: { payee: payee },
+      },
+      {
+        $group: {
+          _id: "$payee",
+          giveAmount: { $sum: "$amount" },
+        },
+      },
+    ])
+      .then((docs) => {
+        console.log(docs);
+        res.json({
+          status: true,
+          giveAmount: docs,
+        });
+      })
+      .catch((err) => {
+        res.json({
+          status: false,
+          message: "There are some error with query",
+        });
+      });
+  }
+};
+
+const settleup = (req, res) => {
+  const { payer, payee } = req.body;
+  AmountSplit.deleteMany({ payer: payer }, { payee: payee })
+    .then((docs) => {
+      res.json({
+        status: true,
+        message: "Settle Up Successful",
+      });
+    })
+    .catch((err) => {
+      res.json({
+        status: false,
+        message: "There are some error with query",
+      });
+    });
+};
+
 exports.createSplits = createSplits;
+exports.getSummary = getSummary;
+exports.settleup = settleup;
