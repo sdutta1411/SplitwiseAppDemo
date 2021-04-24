@@ -3,6 +3,7 @@ const HttpCodes = require("./../enums/http-codes");
 const HttpError = require("./../models/http-error");
 
 const Expense = require("./../models/expenses-model");
+const Group = require("./../models/group-model");
 
 const createExpense = (req, res) => {
   const {
@@ -65,5 +66,49 @@ const getExpenses = (req, res) => {
   });
 };
 
+const getRecentActivities = (req, res) => {
+  const user_name = req.body.user_name;
+  let groups = [];
+  Group.find(
+    {
+      "members.user_name": user_name,
+      "members.user_status": { $ne: "Declined" },
+    },
+    (err, group) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(group.length);
+        for (let i = 0; i < group.length; i++) {
+          console.log(group[i].group_name);
+          groups = [...groups, group[i].group_name];
+        }
+        console.log(groups);
+        Expense.find({ group_name: { $in: groups } }, (err, result) => {
+          if (err) {
+            res.json({
+              status: false,
+              message: "There are some error with query",
+            });
+          } else {
+            if (result.length > 0) {
+              res.json({
+                status: true,
+                data: result,
+              });
+            } else {
+              res.json({
+                status: false,
+                message: "No Recent Activities",
+              });
+            }
+          }
+        });
+      }
+    }
+  );
+};
+
 exports.createExpense = createExpense;
 exports.getExpenses = getExpenses;
+exports.getRecentActivities = getRecentActivities;

@@ -73,7 +73,7 @@ const getGroups = (req, res) => {
       if (err) {
         res.json({
           status: false,
-          message: "Error in Group Creation",
+          message: "No Groups Found",
         });
       } else {
         res.json({
