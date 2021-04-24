@@ -1,123 +1,102 @@
 import React, { useState } from "react";
-import { Divider, Avatar, Grid, Paper } from "@material-ui/core";
-
+import { Divider, Avatar, Grid, Paper, Button } from "@material-ui/core";
+import Moment from "moment";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import { Link } from "react-router-dom";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const CommentPage = () => {
-
   const comments = [
-      {
-        created_by : 'Shubham Dutta',
-        comment: 'Hello World'
-      },
-      {
-        created_by : 'Sumita Dutta',
-        comment: 'Hello World'
-      },
-      {
-        created_by : 'Nilu Dutta',
-        comment: 'Hello World'
-      }
-  ]
+    {
+      expense_id: "1",
+      created_by: "Shubham Dutta",
+      content: "Hello World",
+      created_at: "2019-08-24T14:15:22Z",
+    },
+    {
+      expense_id: "2",
+      created_by: "Sumita Dutta",
+      content: "Hello World",
+      created_at: "2019-08-24T14:15:22Z",
+    },
+    {
+      expense_id: "3",
+      created_by: "Nilu Dutta",
+      content: "Hello World",
+      created_at: "2019-08-24T14:15:22Z",
+    },
+  ];
 
   return (
     <div style={{ padding: 14, marginLeft: 120 }} className="App">
+      <div
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          position: "absolute",
+          top: 70,
+          left: 100,
+          right: 0,
+          bottom: 0,
+        }}
+      >
+        <Link
+          to="/myGroups"
+          style={{
+            alignItems: "center",
+            display: "flex",
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          <Avatar className="Icon">
+            <ArrowBackIcon fontSize="inherit" />
+          </Avatar>
+        </Link>
+      </div>
       <h1>Comments</h1>
-      <Paper style={{ padding: "40px 20px", marginTop: 50 }}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <Avatar alt="Remy Sharp" />
-          </Grid>
-          <Grid justifyContent="left" item xs zeroMinWidth>
-            <h4 style={{ margin: 0, textAlign: "left" }}>Michel Michel</h4>
-            <p style={{ textAlign: "left" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
-              Suspendisse congue vulputate lobortis. Pellentesque at interdum
-              tortor. Quisque arcu quam, malesuada vel mauris et, posuere
-              sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit
-              metus, efficitur lobortis nisi quis, molestie porttitor metus.
-              Pellentesque et neque risus. Aliquam vulputate, mauris vitae
-              tincidunt interdum, mauris mi vehicula urna, nec feugiat quam
-              lectus vitae ex.{" "}
-            </p>
-            <p style={{ textAlign: "left", color: "gray" }}>
-              posted 1 minute ago
-            </p>
-          </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          {comments.map((value) => {
+            return (
+              <Paper
+                style={{
+                  padding: "30px 10px",
+                  marginTop: 30,
+                  width: "400px",
+                  height: "150px",
+                }}
+              >
+                <Grid container wrap="wrap" spacing={2}>
+                  <Grid item>
+                    <Avatar alt="Remy Sharp" />
+                  </Grid>
+                  <Grid justifyContent="left" item xs zeroMinWidth>
+                    <h4 style={{ margin: 0, textAlign: "left" }}>
+                      {value.created_by}
+                    </h4>
+                    <p style={{ textAlign: "left" }}>{value.content} </p>
+                    <p style={{ textAlign: "left", color: "gray" }}>
+                      Posted on: {Moment(value.date).format("DD-MM-YYYY")}
+                    </p>
+                  </Grid>
+                  <Button className="mr10">X</Button>
+                </Grid>
+              </Paper>
+            );
+          })}
         </Grid>
-      </Paper>
-      <Paper style={{ padding: "40px 20px", marginTop: 10 }}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <Avatar alt="Remy Sharp" />
-          </Grid>
-          <Grid justifyContent="left" item xs zeroMinWidth>
-            <h4 style={{ margin: 0, textAlign: "left" }}>Michel Michel</h4>
-            <p style={{ textAlign: "left" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
-              Suspendisse congue vulputate lobortis. Pellentesque at interdum
-              tortor. Quisque arcu quam, malesuada vel mauris et, posuere
-              sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit
-              metus, efficitur lobortis nisi quis, molestie porttitor metus.
-              Pellentesque et neque risus. Aliquam vulputate, mauris vitae
-              tincidunt interdum, mauris mi vehicula urna, nec feugiat quam
-              lectus vitae ex.{" "}
-            </p>
-            <p style={{ textAlign: "left", color: "gray" }}>
-              posted 1 minute ago
-            </p>
-          </Grid>
+        <Grid item xs={6}>
+          <TextareaAutosize
+            aria-label="minimum height"
+            rowsMin={3}
+            placeholder="Comment"
+          />
+          <Button variant="contained" color="primary" size="small">
+            Post
+          </Button>
         </Grid>
-      </Paper>
-      <Paper style={{ padding: "40px 20px", marginTop: 10 }}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <Avatar alt="Remy Sharp" />
-          </Grid>
-          <Grid justifyContent="left" item xs zeroMinWidth>
-            <h4 style={{ margin: 0, textAlign: "left" }}>Michel Michel</h4>
-            <p style={{ textAlign: "left" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
-              Suspendisse congue vulputate lobortis. Pellentesque at interdum
-              tortor. Quisque arcu quam, malesuada vel mauris et, posuere
-              sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit
-              metus, efficitur lobortis nisi quis, molestie porttitor metus.
-              Pellentesque et neque risus. Aliquam vulputate, mauris vitae
-              tincidunt interdum, mauris mi vehicula urna, nec feugiat quam
-              lectus vitae ex.{" "}
-            </p>
-            <p style={{ textAlign: "left", color: "gray" }}>
-              posted 1 minute ago
-            </p>
-          </Grid>
-        </Grid>
-      </Paper>
-      <Paper style={{ padding: "40px 20px", marginTop: 10 }}>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid item>
-            <Avatar alt="Remy Sharp" />
-          </Grid>
-          <Grid justifyContent="left" item xs zeroMinWidth>
-            <h4 style={{ margin: 0, textAlign: "left" }}>Michel Michel</h4>
-            <p style={{ textAlign: "left" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
-              Suspendisse congue vulputate lobortis. Pellentesque at interdum
-              tortor. Quisque arcu quam, malesuada vel mauris et, posuere
-              sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit
-              metus, efficitur lobortis nisi quis, molestie porttitor metus.
-              Pellentesque et neque risus. Aliquam vulputate, mauris vitae
-              tincidunt interdum, mauris mi vehicula urna, nec feugiat quam
-              lectus vitae ex.{" "}
-            </p>
-            <p style={{ textAlign: "left", color: "gray" }}>
-              posted 1 minute ago
-            </p>
-          </Grid>
-        </Grid>
-      </Paper>
+      </Grid>
     </div>
   );
 };
