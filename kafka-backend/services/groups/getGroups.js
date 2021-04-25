@@ -1,7 +1,7 @@
 const Group = require("../../models/group-model");
 
 function handle_request(msg, callback) {
-  const user_name = msg.email;
+  const user_name = msg.user_name;
   console.log('Inside Handle request')
   console.log(user_name);
   Group.find(

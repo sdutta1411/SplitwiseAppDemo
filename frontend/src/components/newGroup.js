@@ -82,7 +82,7 @@ const NewGroup = () => {
 
         axios.post('http://localhost:4000/api/group/creategroup', data)
             .then(response => {
-                if (response.data.status === true) {
+                if (response.status == 200) {
                     swal("Success", "Group Created Successfully", "success")
                         .then(() => {
                             window.location.reload();

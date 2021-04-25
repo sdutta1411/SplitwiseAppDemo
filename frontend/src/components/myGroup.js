@@ -102,11 +102,15 @@ const MyGroups = () => {
   };
 
   const getAllGroups = () => {
-    const uid = localStorage.getItem("Email");
-    fetch(`http://localhost:4000/api/group/${uid}`)
-      .then((response) => response.json())
+    const data = {
+      user_name: localStorage.Email,
+    };
+    debugger;
+    axios
+      .post(`http://localhost:4000/api/group/getGroup`, data)
       .then((data) => {
-        if (data.status === true) {
+        debugger;
+        if (data.status == 200) {
           const allgroupsData = data.data;
           fetchGroupData(allgroupsData);
         } else {
@@ -114,6 +118,7 @@ const MyGroups = () => {
         }
       })
       .catch((err) => {
+        debugger;
         console.log(err);
       });
   };
@@ -129,7 +134,7 @@ const MyGroups = () => {
       .post("http://localhost:4000/api/group/changestatus", data)
       .then((response) => {
         console.log(response);
-        if (response.data.status === true) {
+        if (response.status == 200) {
           swal("Success", "Group Invitation Accepted", "success").then(() => {
             window.location.reload();
           });
@@ -158,7 +163,7 @@ const MyGroups = () => {
       .post("http://localhost:4000/api/group/changestatus", data)
       .then((response) => {
         console.log(response);
-        if (response.data.status === true) {
+        if (response.status == 200) {
           swal("Success", "Group Invitation Rejected", "success").then(() => {
             window.location.reload();
           });

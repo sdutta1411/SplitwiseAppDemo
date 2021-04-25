@@ -64,16 +64,6 @@ const Profile = () => {
       }),
     };
 
-    // const data = {
-    //     username: name,
-    //     email: email,
-    //     phone: phone,
-    //     currency: currency,
-    //     timezone: timezone,
-    //     language: language
-    // }
-    // axios.post('http://localhost:4000/updateuser', data)
-
     const uid = localStorage.getItem("UserId");
     fetch(`http://localhost:4000/api/user/${uid}`, options)
       .then((response) => response.json())

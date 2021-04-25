@@ -32,9 +32,9 @@ mongoConnection();
 
 //topics files
 
-// let addgroup = require("./services/groups/createGroup");
+let creategroup = require("./services/groups/createGroup");
 let getgroups = require("./services/groups/getGroups");
-// let joingroup = require("./services/groups/changeStatus");
+let changegroupstatus = require("./services/groups/changeStatus");
 // let addexpense = require("./services/expense/createExpense");
 // let getexpense = require("./services/expense/getExpense");
 // let amountsplit = require("./services/amountsplit/amountsplit-controller");
@@ -93,9 +93,9 @@ function response(data, res, producer) {
 }
 
 // // Add your TOPICs here
-// handleTopicRequest("addgroup", addgroup);
+handleTopicRequest("creategroup", creategroup);
 handleTopicRequest("getgroups", getgroups);
-// handleTopicRequest("joingroup", joingroup);
+handleTopicRequest("changegroupstatus", changegroupstatus);
 // handleTopicRequest("addexpense", addexpense);
 // handleTopicRequest("getexpense", getexpense);
 // handleTopicRequest("amountsplit", amountsplit);
