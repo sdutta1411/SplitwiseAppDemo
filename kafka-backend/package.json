@@ -1,0 +1,18 @@
+{
+  "name": "kafka-backend",
+  "version": "1.0.0",
+  "description": "Kafka Backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shubham Dutta",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "kafka-node": "^5.0.0",
+    "mongoose": "^5.12.5",
+    "nodemon": "^2.0.7"
+  }
+}

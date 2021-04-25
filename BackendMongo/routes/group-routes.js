@@ -1,20 +1,36 @@
-const express = require('express');
-const { check } = require('express-validator');
+const express = require("express");
+const { check } = require("express-validator");
+const kafka = require("../kafka/client");
 
-const groupController = require('./../controllers/group-controller');
+const groupController = require("./../controllers/group-controller");
 
 const router = express.Router();
 
 // get groups by username
-router.get('/:uid', groupController.getGroups);
+//router.get('/:uid', groupController.getGroups);
+
+// get groups by username
+router.post("/getGroup", (req, res) => {
+  console.log("inside method for get group by username backend");
+  console.log("req.body", req.body);
+
+  kafka.make_request("getgroups", req.body, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
 
 // get groups by GroupName
-router.post('/groupInfo', groupController.getGroupInfo);
+router.post("/groupInfo", groupController.getGroupInfo);
 
 //Change userStatus in the Group
-router.post('/changestatus', groupController.changeStatus);
+router.post("/changestatus", groupController.changeStatus);
 
 // create group
-router.post('/creategroup', groupController.createGroup);
+router.post("/creategroup", groupController.createGroup);
 
 module.exports = router;
