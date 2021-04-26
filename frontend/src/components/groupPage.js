@@ -241,7 +241,7 @@ const GroupPage = (props) => {
         payee: localStorage.Email,
       })
       .then((response) => {
-        if (response.data.giveAmount.length == 0) {
+        if (response.data.data.length == 0) {
           const data = {
             group_name: GroupName,
             user_name: localStorage.Email,
@@ -252,7 +252,7 @@ const GroupPage = (props) => {
             .post("http://localhost:4000/api/group/changestatus", data)
             .then((response) => {
               console.log(response);
-              if (response.data.status === true) {
+              if (response.status == 200) {
                 swal("Success", "Left Group", "success");
                 setredirect(true);
               } else {

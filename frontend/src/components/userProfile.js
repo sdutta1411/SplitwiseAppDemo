@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import swal from "sweetalert";
 import axios from "axios";
+import { Image } from "cloudinary-react";
 
 import man from "../assets/man.jpg";
 import "../styles/userProfile.css";
@@ -25,6 +26,9 @@ const Profile = () => {
   const [currency, setCurrency] = useState(localStorage.Currency);
   const [timezone, setTimezone] = useState(localStorage.Timezone);
   const [language, setLanguage] = useState(localStorage.Language);
+  const [selectedFile, setselectedFile] = useState(null);
+  const [imageSelected, setImageSelected] = useState("");
+  const [publicurl, setPublicurl] = useState(localStorage.getItem("publicurl"));
 
   useEffect(() => {
     getUserDetails();
@@ -90,6 +94,26 @@ const Profile = () => {
       });
   };
 
+  const fileSelectedHandler = (event) => {
+    console.log(event.target.files[0]);
+    setselectedFile(event.target.files[0]);
+  };
+
+  const uploadImage = () => {
+    debugger
+    const formData = new FormData();
+    formData.append("file", imageSelected);
+    formData.append("upload_preset", "pgrd8wwu");
+
+    axios
+      .post("https://api.cloudinary.com/v1_1/dxe1snk01/image/upload", formData)
+      .then((response) => {
+        setPublicurl(response.data.secure_url);
+        localStorage.setItem("publicurl", response.data.secure_url);
+        console.log(publicurl);
+      });
+  };
+
   return (
     <div className="Profile">
       <div
@@ -130,17 +154,26 @@ const Profile = () => {
         <Box m={4} p={1} border={1} css={{ height: 450 }}>
           <Box display="flex">
             <Box width="30%" m={3}>
-              <Grid
+              {/* <Grid
                 container
                 direction={"column"}
                 justify="space-evenly"
                 alignItems="center"
-              >
-                <Avatar src={man} style={{ height: "150px", width: "150px" }} />
-                <Button sixe="large" color="primary">
-                  Upload Image
-                </Button>
-              </Grid>
+              > */}
+                {/* <Avatar src={man} style={{ height: "150px", width: "150px" }} /> */}
+                <Image
+                  style={{ width: 200, height: 200 }}
+                  cloudName="dxe1snk01"
+                  publicId={publicurl}
+                />
+                <input
+                  type="file"
+                  onChange={(event) => {
+                    setImageSelected(event.target.files[0]);
+                  }}
+                />
+              {/* k</Grid> */}
+              <Button onClick={uploadImage}>Upload Image</Button>
             </Box>
             <Box width="40%" m={2} p={1}>
               <form>
