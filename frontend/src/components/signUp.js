@@ -51,7 +51,7 @@ const SignUp = () => {
   const submitSignUp = (e) => {
     e.preventDefault();
     const data = {
-      username: name,
+      name: name,
       email: email,
       password: password,
       phone: phone,
@@ -60,8 +60,9 @@ const SignUp = () => {
       language: language
     }
 
-    axios.post('http://localhost:4000/register', data)
+    axios.post('http://localhost:4000/api/user/register', data)
       .then(response => {
+        debugger
         console.log(response);
         dispatchRegister(response.data.status);
         if (response.data.status === true) {

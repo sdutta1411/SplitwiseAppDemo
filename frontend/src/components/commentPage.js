@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Avatar, Grid, Paper, Button } from "@material-ui/core";
+import {
+  Divider,
+  Avatar,
+  Grid,
+  Paper,
+  Button,
+  TextField,
+} from "@material-ui/core";
 import Moment from "moment";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { Link } from "react-router-dom";
@@ -16,6 +23,7 @@ const CommentPage = () => {
 
   const [content, setContent] = useState("");
   const [myComments, setmyComments] = useState([]);
+  const [fetchStatus, setfetchStatus] = useState(true);
 
   useEffect(() => {
     getAllComments();
@@ -91,7 +99,7 @@ const CommentPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        swal("Error", "Error in Addition", "error", {
+        swal("Error", "No Comments Yet", "error", {
           dangerMode: true,
         });
       });
@@ -157,9 +165,8 @@ const CommentPage = () => {
           })}
         </Grid>
         <Grid item xs={6}>
-          <TextareaAutosize
+          <TextField
             aria-label="minimum height"
-            rowsMin={3}
             placeholder="Comment"
             autoFocus
             onChange={(e) => setContent(e.target.value)}

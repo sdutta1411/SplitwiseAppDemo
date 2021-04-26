@@ -88,23 +88,15 @@ const signin = async (req, res, next) => {
     } else {
       res.json({
         status: false,
-        message: "Login Denied"
+        message: "Login Denied",
       });
     }
   });
 };
 
 // register user
-const signup = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(
-      new HttpError(
-        "Invalid inputs passed, please check your data.",
-        HttpCodes.UnprocessableEntity
-      )
-    );
-  }
+const signup = async (req, res) => {
+  console.log(req.body);
   const {
     email,
     password,
@@ -115,57 +107,59 @@ const signup = async (req, res, next) => {
     language,
   } = req.body;
 
-  let existingUser;
-  try {
-    existingUser = await User.findOne({ email: email });
-  } catch (err) {
-    const error = new HttpError(
-      "Signing up failed, please try again later.",
-      HttpCodes.InternalServerError
-    );
-    return next(error);
-  }
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (err) {
+      console.log("err");
+      res.json({
+        status: false,
+        message: "Error in Group Creation",
+      });
+    }
+    if (user) {
+      console.log("Exist");
+      res.json({
+        status: false,
+        message: "Group Already Exists",
+      });
+    } else {
+      const newUser = new User({
+        email,
+        password,
+        name,
+        phone,
+        currency,
+        timezone,
+        language,
+      });
 
-  if (existingUser) {
-    const error = new HttpError(
-      "User exists already, please login instead.",
-      HttpCodes.UnprocessableEntity
-    );
-    return next(error);
-  }
+      console.log('*********************')
+      console.log(newUser)
 
-  const newUser = new User({
-    email,
-    password,
-    name,
-    phone,
-    currency,
-    timezone,
-    language,
-  });
-
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newUser.password, salt, (err, hash) => {
-      if (err) return err;
-      //Hashing the password
-      newUser.password = hash;
-      // Creating collection
-      newUser
-        .save()
-        .then((userSaved) => {
-          res.json({
-            status: true,
-            data: userSaved,
-            message: "User Registered Sucessfully",
-          });
-        })
-        .catch((err) => {
-          res.json({
-            status: false,
-            message: `User Not Saved ${err}`,
-          });
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) return err;
+          //Hashing the password
+          newUser.password = hash;
+          // Creating collection
+          newUser
+            .save()
+            .then((userSaved) => {
+              res.json({
+                status: true,
+                data: userSaved,
+                message: "User Registered Sucessfully",
+              });
+            })
+            .catch((err) => {
+              console.log(err)
+              res.json({
+                status: false,
+                message: `User Not Saved ${err}`,
+              });
+            });
         });
-    });
+      });
+    }
   });
 };
 

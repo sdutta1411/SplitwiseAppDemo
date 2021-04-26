@@ -222,8 +222,12 @@ const GroupPage = (props) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === true) {
-          const allExpenses = data.data;
-          setmyExpenses(allExpenses);
+          if (data.data == 500) {
+            setfetchStatus(false);
+          } else {
+            const allExpenses = data.data;
+            setmyExpenses(allExpenses);
+          }
         } else {
           setfetchStatus(false);
         }
@@ -281,6 +285,14 @@ const GroupPage = (props) => {
   if (redirect) {
     return <Redirect to="/myGroups" />;
   }
+
+  // if (!fetchStatus) {
+  //   return (
+  //     <div className={classes.root}>
+  //       <h2>No Expense Yet</h2>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
