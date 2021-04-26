@@ -36,7 +36,7 @@ const Profile = () => {
 
   const getUserDetails = () => {
     const uid = localStorage.getItem("Email");
-    fetch(`http://localhost:4000/api/user/${uid}`)
+    fetch(`http://3.235.179.11:4000/api/user/${uid}`)
       .then((res) => res.json())
       .then((data) => {
         setEmail(data.email);
@@ -69,7 +69,7 @@ const Profile = () => {
     };
 
     const uid = localStorage.getItem("UserId");
-    fetch(`http://localhost:4000/api/user/${uid}`, options)
+    fetch(`http://3.235.179.11:4000/api/user/${uid}`, options)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);

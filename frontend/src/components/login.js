@@ -45,7 +45,7 @@ const Auth = () => {
             swal("Please Enter Username and Password")
         }   
         else {
-            axios.post('http://localhost:4000/api/user/login', {
+            axios.post('http://3.235.179.11:4000/api/user/login', {
                 email: username,
                 password: password
             }).then(response => {

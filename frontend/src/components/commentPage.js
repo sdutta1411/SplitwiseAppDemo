@@ -60,7 +60,7 @@ const CommentPage = () => {
     };
 
     axios
-      .post("http://localhost:4000/api/comments/postcomment", data)
+      .post("http://3.235.179.11:4000/api/comments/postcomment", data)
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
@@ -84,7 +84,7 @@ const CommentPage = () => {
   const getAllComments = () => {
     debugger;
     axios
-      .post("http://localhost:4000/api/comments/getcomment", {
+      .post("http://3.235.179.11:4000/api/comments/getcomment", {
         expense_id: expenseId,
       })
       .then((response) => {

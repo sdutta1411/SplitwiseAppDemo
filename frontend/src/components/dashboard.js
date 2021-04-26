@@ -91,7 +91,7 @@ const Dashboard = () => {
 
   const getSummary = () => {
     axios
-      .post("http://localhost:4000/api/amountsplit/getsummary", {
+      .post("http://3.235.179.11:4000/api/amountsplit/getsummary", {
         payer: localStorage.Email,
       })
       .then((response) => {
@@ -107,7 +107,7 @@ const Dashboard = () => {
       });
 
     axios
-      .post("http://localhost:4000/api/amountsplit/getsummary", {
+      .post("http://3.235.179.11:4000/api/amountsplit/getsummary", {
         payee: localStorage.Email,
       })
       .then((response) => {
@@ -128,7 +128,7 @@ const Dashboard = () => {
 
   const fetchAllUserids = () => {
     axios
-      .get("http://localhost:4000/api/user/")
+      .get("http://3.235.179.11:4000/api/user/")
       .then((response) => {
         console.log(response);
         const allusers = response.data.users;
@@ -148,7 +148,7 @@ const Dashboard = () => {
       payer: localStorage.Email,
     };
     axios
-      .post("http://localhost:4000/api/amountsplit/settleup", data2)
+      .post("http://3.235.179.11:4000/api/amountsplit/settleup", data2)
       .then((response) => {
         console.log(response);
         swal("Success", response.data.message, "success").then(() => {

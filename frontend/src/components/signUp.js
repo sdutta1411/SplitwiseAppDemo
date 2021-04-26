@@ -60,7 +60,7 @@ const SignUp = () => {
       language: language
     }
 
-    axios.post('http://localhost:4000/api/user/register', data)
+    axios.post('http://3.235.179.11:4000/api/user/register', data)
       .then(response => {
         debugger
         console.log(response);
