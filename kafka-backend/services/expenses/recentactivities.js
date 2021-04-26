@@ -29,7 +29,7 @@ function handle_request(msg, callback) {
               callback(null, 500);
             }
           }
-        });
+        }).sort({ date: -1 });
       }
     }
   );

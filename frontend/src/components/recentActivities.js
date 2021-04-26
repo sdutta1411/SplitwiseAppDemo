@@ -16,6 +16,7 @@ import BallotIcon from "@material-ui/icons/Ballot";
 import axios from "axios";
 import Moment from "moment";
 import Pagination from "@material-ui/lab/Pagination";
+import TablePagination from "@material-ui/core/TablePagination";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,17 @@ const RecentActivities = () => {
   const classes = useStyles();
 
   const [myActivities, setmyActivities] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(2);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
     getRecentActivities();
@@ -62,9 +74,7 @@ const RecentActivities = () => {
       });
   };
 
-  const handlePageChange = (e) => {
-
-  };
+  const handlePageChange = (e) => {};
 
   return (
     <Card className={classes.cardroot}>
@@ -78,35 +88,36 @@ const RecentActivities = () => {
       />
       <Divider />
       <CardContent>
-        <Pagination
-          className="my-3"
-          count={3}
-          page={3}
-          siblingCount={1}
-          boundaryCount={1}
-          variant="outlined"
-          shape="rounded"
-          onChange={e => handlePageChange(e)}
+        <TablePagination
+          rowsPerPageOptions={[2, 5, 10]}
+          component="div"
+          count={myActivities.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-        {myActivities.map((value) => {
-          return (
-            <List className={classes.root}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar>
-                    <BallotIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={`${value.user_name} added "${value.description}" in "${value.group_name}"`}
-                  secondary={Moment(value.date).format("DD-MM-YYYY")}
-                />
-                <ListItemText secondary={`$ ${value.amount}`} />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </List>
-          );
-        })}
+        {myActivities
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((value) => {
+            return (
+              <List className={classes.root}>
+                <ListItem alignItems="flex-start">
+                  <ListItemAvatar>
+                    <Avatar>
+                      <BallotIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={`${value.user_name} added "${value.description}" in "${value.group_name}"`}
+                    secondary={Moment(value.date).format("DD-MM-YYYY")}
+                  />
+                  <ListItemText secondary={`$ ${value.amount}`} />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </List>
+            );
+          })}
       </CardContent>
     </Card>
   );
