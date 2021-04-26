@@ -35,9 +35,14 @@ mongoConnection();
 let creategroup = require("./services/groups/createGroup");
 let getgroups = require("./services/groups/getGroups");
 let changegroupstatus = require("./services/groups/changeStatus");
-// let addexpense = require("./services/expense/createExpense");
-// let getexpense = require("./services/expense/getExpense");
-// let amountsplit = require("./services/amountsplit/amountsplit-controller");
+let addexpense = require("./services/expenses/createExpense");
+let getexpense = require("./services/expenses/getExpense");
+let amountsplit = require("./services/amountsplit/createSplit");
+let getsummary = require("./services/amountsplit/getSummary");
+let settleup = require("./services/amountsplit/settleup");
+let postcomment = require("./services/comments/createComments");
+let getcomment = require("./services/comments/getComments");
+let recentactivites = require("./services/expenses/recentactivities");
 
 function handleTopicRequest(topic_name, fname) {
   //var topic_name = 'root_topic';
@@ -96,6 +101,11 @@ function response(data, res, producer) {
 handleTopicRequest("creategroup", creategroup);
 handleTopicRequest("getgroups", getgroups);
 handleTopicRequest("changegroupstatus", changegroupstatus);
-// handleTopicRequest("addexpense", addexpense);
-// handleTopicRequest("getexpense", getexpense);
-// handleTopicRequest("amountsplit", amountsplit);
+handleTopicRequest("addexpense", addexpense);
+handleTopicRequest("getexpense", getexpense);
+handleTopicRequest("amountsplit", amountsplit);
+handleTopicRequest("getsummary", getsummary);
+handleTopicRequest("settleup", settleup);
+handleTopicRequest("postcomment", postcomment);
+handleTopicRequest("getcomment", getcomment);
+handleTopicRequest("recentactivites", recentactivites);

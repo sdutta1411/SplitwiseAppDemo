@@ -89,7 +89,7 @@ function App() {
           <Route path="/recentactivities">
             <RecentActivities />
           </Route>
-          <Route path="/commentpage">
+          <Route path="/commentpage/:groupName/:expenseid">
             <CommentPage />
           </Route>
         </Switch>

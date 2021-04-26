@@ -96,7 +96,11 @@ const Dashboard = () => {
       })
       .then((response) => {
         console.log(response);
-        settakeAmount(response.data.takeAmount[0].takeAmount);
+        if (response.data.data.length != 0) {
+          settakeAmount(response.data.data[0].takeAmount);
+        } else {
+          setgiveAmount(0.0);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -108,7 +112,11 @@ const Dashboard = () => {
       })
       .then((response) => {
         console.log(response);
-        setgiveAmount(response.data.giveAmount[0].giveAmount);
+        if (response.data.data.length != 0) {
+          setgiveAmount(response.data.data[0].giveAmount);
+        } else {
+          setgiveAmount(0.0);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -120,7 +128,7 @@ const Dashboard = () => {
 
   const fetchAllUserids = () => {
     axios
-      .get('http://localhost:4000/api/user/')
+      .get("http://localhost:4000/api/user/")
       .then((response) => {
         console.log(response);
         const allusers = response.data.users;
@@ -143,8 +151,11 @@ const Dashboard = () => {
       .post("http://localhost:4000/api/amountsplit/settleup", data2)
       .then((response) => {
         console.log(response);
-        swal("Success", response.data.message, "success");
-        getSummary();
+        swal("Success", response.data.message, "success").then(() => {
+          window.location.reload();
+        });
+        //getSummary();
+        handleClose();
       })
       .catch((err) => {
         console.log(err);

@@ -139,7 +139,7 @@ const GroupPage = (props) => {
       amount: amount,
     };
     axios
-      .post("http://localhost:4000/api/amountsplit/createsplits", data)
+      .post("http://localhost:4000/api/amountsplit/createsplit", data)
       .then((response) => {
         console.log(response);
       })
@@ -162,7 +162,7 @@ const GroupPage = (props) => {
       .post("http://localhost:4000/api/expense/addexpense", data)
       .then((response) => {
         console.log(response);
-        if (response.data.status === true) {
+        if (response.status == 200) {
           swal("Success", "Expense Added", "success").then(() => {
             window.location.reload();
           });
@@ -338,7 +338,7 @@ const GroupPage = (props) => {
                     size="small"
                     startIcon={<CommentIcon />}
                     component={Link}
-                    to={`/commentpage`}
+                    to={`/commentpage/${value.group_name}/${value._id}`}
                   />
                 </ListItem>
                 <Divider />
