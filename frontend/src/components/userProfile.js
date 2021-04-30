@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { ReactReduxContext } from 'react-redux'
 import {
   Avatar,
   TextField,
@@ -34,9 +35,12 @@ const Profile = () => {
     getUserDetails();
   }, []);
 
+  const {store} = useContext(ReactReduxContext)
+
   const getUserDetails = () => {
+    console.log(store.getState())
     const uid = localStorage.getItem("Email");
-    fetch(`http://3.235.179.11:4000/api/user/${uid}`)
+    fetch(`http://localhost:4000/api/user/${uid}`)
       .then((res) => res.json())
       .then((data) => {
         setEmail(data.email);
@@ -69,7 +73,7 @@ const Profile = () => {
     };
 
     const uid = localStorage.getItem("UserId");
-    fetch(`http://3.235.179.11:4000/api/user/${uid}`, options)
+    fetch(`http://localhost:4000/api/user/${uid}`, options)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);

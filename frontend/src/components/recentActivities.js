@@ -58,7 +58,7 @@ const RecentActivities = () => {
   const getRecentActivities = () => {
     debugger;
     axios
-      .post("http://3.235.179.11:4000/api/expense/getrecentactivities", {
+      .post("http://localhost:4000/api/expense/getrecentactivities", {
         email: localStorage.Email,
       })
       .then((response) => {

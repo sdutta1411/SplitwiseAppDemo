@@ -107,7 +107,7 @@ const MyGroups = () => {
     };
     debugger;
     axios
-      .post(`http://3.235.179.11:4000/api/group/getGroup`, data)
+      .post(`http://localhost:4000/api/group/getGroup`, data)
       .then((data) => {
         debugger;
         if (data.status == 200) {
@@ -131,7 +131,7 @@ const MyGroups = () => {
     };
 
     axios
-      .post("http://3.235.179.11:4000/api/group/changestatus", data)
+      .post("http://localhost:4000/api/group/changestatus", data)
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
@@ -160,7 +160,7 @@ const MyGroups = () => {
     };
 
     axios
-      .post("http://3.235.179.11:4000/api/group/changestatus", data)
+      .post("http://localhost:4000/api/group/changestatus", data)
       .then((response) => {
         console.log(response);
         if (response.status == 200) {

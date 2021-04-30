@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Select from '@material-ui/core/Select';
-import axios from 'axios';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import swal from 'sweetalert';
+import React, { useState } from "react";
+import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Select from "@material-ui/core/Select";
+import axios from "axios";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import swal from "sweetalert";
+import validator from "validator";
 
-import '../styles/signUp.css'
+import "../styles/signUp.css";
 
-import { useDispatch } from 'react-redux';
-import { register } from '../redux/userSlice';
+import { useDispatch } from "react-redux";
+import { register } from "../redux/userSlice";
 
 const SignUp = () => {
-
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,7 +33,7 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
 
-  const dispatchRegister = status => {
+  const dispatchRegister = (status) => {
     dispatch(
       register({
         username: name,
@@ -43,10 +43,10 @@ const SignUp = () => {
         currency: currency,
         timezone: timezone,
         language: language,
-        isRegistered: status
+        isRegistered: status,
       })
     );
-  }
+  };
 
   const submitSignUp = (e) => {
     e.preventDefault();
@@ -57,49 +57,57 @@ const SignUp = () => {
       phone: phone,
       currency: currency,
       timezone: timezone,
-      language: language
-    }
+      language: language,
+    };
 
-    axios.post('http://3.235.179.11:4000/api/user/register', data)
-      .then(response => {
-        debugger
-        console.log(response);
-        dispatchRegister(response.data.status);
-        if (response.data.status === true) {
-          swal("Success", "User Created Successfully", "success");
-          setredirect(true);
-        } else {
-          swal("Error", "Unable to create User", "error", {
-            dangerMode: true
+    if (name === "" || password === "" || email === "") {
+      swal("Please Enter Required Fields");
+    } else {
+      if (validator.isEmail(email)) {
+        axios
+          .post("http://localhost:4000/api/user/register", data)
+          .then((response) => {
+            debugger;
+            console.log(response);
+            dispatchRegister(response.data.status);
+            if (response.data.status === true) {
+              swal("Success", "User Created Successfully", "success");
+              setredirect(true);
+            } else {
+              swal("Error", "Unable to create User", "error", {
+                dangerMode: true,
+              });
+              setredirect(false);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            swal("Error", "Error in User Creation", "error", {
+              dangerMode: true,
+            });
+            setredirect(false);
           });
-          setredirect(false);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        swal("Error", "Error in User Creation", "error", {
-          dangerMode: true
-        });
-        setredirect(false);
-      });
-  }
-
+      } else {
+        swal("Please Enter Valid Email");
+      }
+    }
+  };
 
   if (redirect) {
-    return <Redirect to='/login' />;
+    return <Redirect to="/login" />;
   }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className='signup-paper'>
-        <Avatar className='signup-avatar'>
+      <div className="signup-paper">
+        <Avatar className="signup-avatar">
           <LockOutlinedIcon style={{ color: "green" }} />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className='signup-form' noValidate>
+        <form className="signup-form" noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -144,7 +152,6 @@ const SignUp = () => {
                 autoComplete="phone"
                 name="phone"
                 variant="outlined"
-                required
                 fullWidth
                 id="phone"
                 label="Phone"
@@ -155,7 +162,6 @@ const SignUp = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 name="currency"
                 label="Currency"
@@ -170,7 +176,6 @@ const SignUp = () => {
                 autoComplete="timezone"
                 name="timezone"
                 variant="outlined"
-                required
                 fullWidth
                 id="timezone"
                 label="Timezone"
@@ -197,11 +202,11 @@ const SignUp = () => {
                 fullWidth
                 variant="contained"
                 color="primary"
-                className='signup-submit'
+                className="signup-submit"
                 onClick={(e) => submitSignUp(e)}
               >
                 Sign Up
-          </Button>
+              </Button>
             </Grid>
           </Grid>
           <Grid container justify="flex-end">
@@ -214,7 +219,7 @@ const SignUp = () => {
         </form>
       </div>
     </Container>
-  )
-}
+  );
+};
 
 export default SignUp;

@@ -5,7 +5,7 @@ function ConnectionProvider() {
   this.getConsumer = function (topic_name) {
     // if (!this.kafkaConsumerConnection) {
     console.log("consumer consumer", topic_name);
-    this.client = new kafka.KafkaClient("3.235.179.11:2181");
+    this.client = new kafka.KafkaClient("localhost:2181");
     // this.client = new kafka.Client("http://ec2-3-101-130-45.us-west-1.compute.amazonaws.com:2181");
     // this.client = new kafka.KafkaClient("http://54.215.225.151:2181");
     // this.client = new kafka.KafkaClient({kafkaHost : "54.215.225.151:2181"});
@@ -27,7 +27,7 @@ function ConnectionProvider() {
   //Code will be executed when we start Producer
   this.getProducer = function () {
     if (!this.kafkaProducerConnection) {
-      this.client = new kafka.KafkaClient("3.235.179.11:2181");
+      this.client = new kafka.KafkaClient("localhost:2181");
       // this.client = new kafka.Client("http://ec2-3-101-130-45.us-west-1.compute.amazonaws.com:2181");
       // this.client = new kafka.KafkaClient("http://54.215.225.151:2181");
       // this.client = new kafka.KafkaClient({kafkaHost : "54.215.225.151:2181"});

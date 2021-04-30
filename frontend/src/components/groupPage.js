@@ -139,7 +139,7 @@ const GroupPage = (props) => {
       amount: amount,
     };
     axios
-      .post("http://3.235.179.11:4000/api/amountsplit/createsplit", data)
+      .post("http://localhost:4000/api/amountsplit/createsplit", data)
       .then((response) => {
         console.log(response);
       })
@@ -159,7 +159,7 @@ const GroupPage = (props) => {
     };
 
     axios
-      .post("http://3.235.179.11:4000/api/expense/addexpense", data)
+      .post("http://localhost:4000/api/expense/addexpense", data)
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
@@ -218,7 +218,7 @@ const GroupPage = (props) => {
 
   const getAllExpenses = () => {
     debugger;
-    fetch(`http://3.235.179.11:4000/api/expense/${GroupName}`)
+    fetch(`http://localhost:4000/api/expense/${GroupName}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.status === true) {
@@ -241,7 +241,7 @@ const GroupPage = (props) => {
     let leave = false;
 
     axios
-      .post("http://3.235.179.11:4000/api/amountsplit/getsummary", {
+      .post("http://localhost:4000/api/amountsplit/getsummary", {
         payee: localStorage.Email,
       })
       .then((response) => {
@@ -253,7 +253,7 @@ const GroupPage = (props) => {
           };
 
           axios
-            .post("http://3.235.179.11:4000/api/group/changestatus", data)
+            .post("http://localhost:4000/api/group/changestatus", data)
             .then((response) => {
               console.log(response);
               if (response.status == 200) {
