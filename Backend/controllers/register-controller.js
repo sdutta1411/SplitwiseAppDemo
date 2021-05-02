@@ -7,6 +7,7 @@ module.exports.register = (req, res) => {
 
   //bcrypt.genSalt(10, function (err, salt) {
    // bcrypt.hash(req.body.password, salt, function (err, hash) {
+    console.log(req.body)
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(req.body.password, salt);
       const values = [
@@ -18,6 +19,8 @@ module.exports.register = (req, res) => {
         req.body.timezone,
         req.body.language
       ];
+
+      
 
       connection.query(sql, values, function (error, results, fields) {
         if (error) {

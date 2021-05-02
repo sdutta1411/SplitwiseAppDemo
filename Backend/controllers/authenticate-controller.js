@@ -10,14 +10,11 @@ module.exports.authenticate = (req, res) => {
   console.log(password);
 
   connection.query('SELECT * FROM users WHERE email = ?', [email], function (error, results, fields) {
-    if (results) {
-      console.log(results);
-      var string = JSON.stringify(results);
-      var json = JSON.parse(string);
-      hashedPassword = json[0].password;
-      const comparison = bcrypt.compare(req.body.password, hashedPassword).then(match => {
-        console.log(comparison);
-        if (comparison) {
+    if (results.length > 0) {
+      console.log(results[0].password);
+      const comparison = bcrypt.compare(req.body.password, results[0].password).then(match => {
+        console.log(match);
+        if (match) {
           res.json({
             status: true,
             message: "Login Successful",
